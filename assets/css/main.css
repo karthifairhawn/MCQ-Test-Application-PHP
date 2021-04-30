@@ -1,0 +1,48 @@
+#question-container .ques{
+    display: inline-block;
+    color: beige;
+    background-color: #ff990098;
+    box-shadow: 0 4px 20px 0px rgb(0 0 0 / 14%), 0 7px 10px -5px rgb(255 152 0 / 40%);
+}
+
+#question-container .active-ques{
+    background-color: #ff9800;
+
+}
+
+input[type="button"]{
+    background-color:rgba(81, 202, 57, 8);
+    border: none;
+    border-radius: 10px;
+    padding:5px;
+    color: white;
+}
+
+#submit_test{
+    background-color: rgba(233, 78, 78, 0.801);
+    float:right;
+}
+
+
+.visibility-no{
+    position: absolute;
+    right:0;
+    top: 0;
+    visibility: hidden;
+}
+
+
+
+#questionImg{
+    max-height: 400px;
+    overflow: scroll;
+}
+
+
+@media only screen and (max-width: 600px) {
+    #questionImg{
+        height: 100%;
+        overflow: hidden;
+    }
+  }
+
