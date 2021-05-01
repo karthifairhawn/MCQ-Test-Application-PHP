@@ -1,6 +1,6 @@
 function submitTest() {
     if(confirm('Are you sure you want to submit ?')){
-        // window.location.href = 'index.php';
+        testname=document.getElementById("testname").innerText;
 
         // Submit Request
         testname=document.getElementById("testname").innerText;
@@ -15,8 +15,10 @@ function submitTest() {
             }
 
         };
-        request.send();
-        // Submit Request Ends
+        request.send();        
+        window.location.href = 'attempts.php?testname='+testname;
+
     }
+    // Submit Request Ends
 
 }

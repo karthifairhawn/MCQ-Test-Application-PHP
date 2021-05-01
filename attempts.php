@@ -9,6 +9,9 @@ if(isset($_GET['testname'])){
 }else{
   header('Location:index.php');
 }
+
+$_SESSION['attempt_page']=$_SERVER['REQUEST_URI'];
+
 ?>
 
 
@@ -37,7 +40,7 @@ if(isset($_GET['testname'])){
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
   <!-- Material Kit CSS -->
   <link href="assets/css/material-dashboard.css?v=2.1.2" rel="stylesheet" />
-  <script src="js/render_attempts.js"></script>
+  <script src="assets/js/attempts/render_attempts.js"></script>
   
 </head>
 

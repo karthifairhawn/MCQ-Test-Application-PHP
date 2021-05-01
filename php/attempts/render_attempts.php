@@ -10,8 +10,8 @@ while ($attempt = mysqli_fetch_assoc($attempt_data)){
         echo '<tr>
             <td>'.$attempt["attempt"].'</td>
             <td>'.$attempt["test_date"].'</td>
-            <td>'.$attempt['mark'].'</td>
-            <td> <a href="#" class="btn btn-primary">Review Attempt</a></td>
+            <td>'.$attempt['total_marks'].'</td>
+            <td> <a href="result.php?testname='.$test_name.'&attempt='.$attempt['attempt'].'" class="btn btn-primary">Review Attempt</a></td>
             </tr>';
 }
 ?>

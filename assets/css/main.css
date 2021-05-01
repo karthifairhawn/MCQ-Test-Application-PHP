@@ -34,9 +34,12 @@ input[type="button"]{
 
 
 #questionImg{
-    max-height: 400px;
+   max-height: 400px;
     overflow: scroll;
 }
+
+
+
 
 
 @media only screen and (max-width: 600px) {

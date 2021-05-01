@@ -1,19 +1,10 @@
 <?php
 
 session_start();
-include 'php/conn.php';
-$u_name = $_SESSION['u_name'];
-$name = $_SESSION['name'];
+$_SESSION['u_name']=$_POST['u_name'];
+$_SESSION['name']=$_POST['name'];
 
 
-
-
-$testname = $_GET['testname'];
-$attempt  = $_GET['attempt'];
-$attempt_page = $_SESSION['attempt_page'];
-$result_data_query = "SELECT total_questions, unanswered_questions, answered_questions, correct_answers, wrong_answers, total_marks from attempts where test_name='$testname' and attempt=$attempt";
-$result_data = mysqli_query($conn,$result_data_query);
-$result_data = mysqli_fetch_assoc($result_data);
 
 
 
@@ -36,7 +27,7 @@ $result_data = mysqli_fetch_assoc($result_data);
 <html lang="en">
 
 <head>
-  <title>Test Review</title>
+  <title>Mock Test</title>
   <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport" />
@@ -46,11 +37,11 @@ $result_data = mysqli_fetch_assoc($result_data);
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
   <!-- Material Kit CSS -->
   <link href="assets/css/material-dashboard.css?v=2.1.2" rel="stylesheet" />
-  <script src="js/render_attempts.js"></script>
-  
+  <script src="assets/js/testlist-page/load_test.js"></script>
+  <script src="assets/js/testlist-page/review_popup.js"></script>
 </head>
 
-<body>
+<body onload="updateTests()">
   <div class="wrapper ">
     <div class="sidebar" data-color="orange" data-background-color="white" style="background-color:#eee;">
       <!--
@@ -59,15 +50,16 @@ $result_data = mysqli_fetch_assoc($result_data);
       Tip 2: you can also add an image using data-image tag
   -->
       <div class="logo">
-        <a class="simple-text logo-normal">
+        <a href="http://www.creative-tim.com" class="simple-text logo-normal">
+          <?php echo $_SESSION['name']; ?>
         </a>
       </div>
       <div class="sidebar-wrapper">
         <ul class="nav">
           <li class="nav-item active  ">
             <a class="nav-link" href="#0">
-              <i class="material-icons" style="color:white;">rate_review</i>
-              <p style="color:white";>Test Submitted</p>
+              <i class="material-icons" style="color:grey;">rate_review</i>
+              <p style="color:grey";>Mock Test</p>
             </a>
           </li>
           <!-- your sidebar here -->
@@ -79,7 +71,7 @@ $result_data = mysqli_fetch_assoc($result_data);
       <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top ">
         <div class="container-fluid">
           <div class="navbar-wrapper">
-            <a class="navbar-brand" href="javascript:;">Result</a>
+            <a class="navbar-brand" href="javascript:;">Mock Test</a>
           </div>
           <button class="navbar-toggler" type="button" data-toggle="collapse" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
             <span class="sr-only">Toggle navigation</span>
@@ -115,18 +107,16 @@ $result_data = mysqli_fetch_assoc($result_data);
               background: linear-gradient(to right, #021B79, #093028); 
               font-family:verdana;
               text-align:center">
-                <h4 class="card-title">Test Result</h4>            
+                <h4 class="card-title">Test List</h4>
+                <p class="card-category">Complete the below Mock Tests.</p>
               </div>
 
               <div class="card-body">
-                <label>Total Questions: <?php echo $result_data['total_questions']; ?></label><br>
-                <label>Answered Questions: <?php echo $result_data['answered_questions']; ?></label><br>
-                <label>Unanswered Questions:<?php echo $result_data['unanswered_questions']; ?></label><br>  
-                <label>Correct Answers:<?php echo $result_data['correct_answers']; ?></label><br>                     
-                <label>Wrong Answers: <?php echo $result_data['wrong_answers']; ?></label><br>                                     
-                <label style="font-weight:600">Total Marks Obtained:<?php echo $result_data['total_marks']; ?></label><br>          
-
-                <a class="btn btn-primary"href="<?php echo $attempt_page; ?>"><i class="fa fa-angle-left"></i>   Go Back</a>
+                <div class="table-responsive">
+                  <table class="table" id="table">
+                    
+                                 
+                  </table>
                 </div>
               </div>
 
