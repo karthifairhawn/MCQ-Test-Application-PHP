@@ -1,5 +1,6 @@
 <?php
 
+session_start();
 include '../conn.php';
 if(isset($_GET['name'])){
     $name=$_GET['name'];
@@ -7,6 +8,14 @@ if(isset($_GET['name'])){
     if(mysqli_num_rows($data)==0){
         echo "No questions added yet";
     }
+    $user_id = $_SESSION['u_name'];
+    $attempt = $_GET['attempt'];
+    $checked_check_query = mysqli_query($conn,"select answer1 from attempts where user_id='$user_id' and attempt=$attempt");
+    $checked_check = (mysqli_fetch_Assoc($checked_check_query));
+    $checked_1 =$checked_check['answer1'];
+    $checked_2 = $checked_check['answer1'];
+    $checked_3 =$checked_check['answer1'];
+    $checked_4 =$checked_check['answer1'];
     while($row = mysqli_fetch_assoc($data)){
         $q_image = explode(".",$row['question']);  
             $q_format = end($q_image);
@@ -19,10 +28,10 @@ if(isset($_GET['name'])){
                             '.$row['ques_no'].'. '.'<div  id="questionImg"><img class="img-fluid" src="'."./assets/question-image/".$row['question'].'"></div>'.'
                         </label>
                         <p>
-                            <input type="radio" name="question'.$row['ques_no'].'" value="Option 1" onclick="update_db_ans('.$row['ques_no'].',1)">'.' '.'<div  id="questionImg"><img class="img-fluid" src="'."./assets/question-image/".$row['option1'].'"></div>'.'<br>
-                            <input type="radio" name="question'.$row['ques_no'].'" value="Option 1" onclick="update_db_ans('.$row['ques_no'].',2)">'.' '.'<div  id="questionImg"><img class="img-fluid" src="'."./assets/question-image/".$row['option1'].'"></div>'.'<br>
-                            <input type="radio" name="question'.$row['ques_no'].'" value="Option 1" onclick="update_db_ans('.$row['ques_no'].',3)">'.' '.'<div  id="questionImg"><img class="img-fluid" src="'."./assets/question-image/".$row['option1'].'"></div>'.'<br>
-                            <input type="radio" name="question'.$row['ques_no'].'" value="Option 1" onclick="update_db_ans('.$row['ques_no'].',4)">'.' '.'<div  id="questionImg"><img class="img-fluid" src="'."./assets/question-image/".$row['option1'].'"></div>'.'<br>
+                            <input type="radio" name="question'.$row['ques_no'].'" value="Option 1" onclick="update_db_ans('.$row['ques_no'].',1)">'.' '.'<div  id="questionImg"><img class="img-fluid" src="'."./assets/question-image/".$row['option1'].'" '.$checked_1.' ></div>'.'<br>
+                            <input type="radio" name="question'.$row['ques_no'].'" value="Option 1" onclick="update_db_ans('.$row['ques_no'].',2)">'.' '.'<div  id="questionImg"><img class="img-fluid" src="'."./assets/question-image/".$row['option1'].'" '.$checked_2.' ></div>'.'<br>
+                            <input type="radio" name="question'.$row['ques_no'].'" value="Option 1" onclick="update_db_ans('.$row['ques_no'].',3)">'.' '.'<div  id="questionImg"><img class="img-fluid" src="'."./assets/question-image/".$row['option1'].'" '.$checked_3.' ></div>'.'<br>
+                            <input type="radio" name="question'.$row['ques_no'].'" value="Option 1" onclick="update_db_ans('.$row['ques_no'].',4)">'.' '.'<div  id="questionImg"><img class="img-fluid" src="'."./assets/question-image/".$row['option1'].'" '.$checked_4.' ></div>'.'<br>
                         </p>
                         <input type="button" value="Next Question" id="next_question_button" name="submit" onclick="next_question()" style="margin-left:10px;" class="nextbutton">
                         <input type="button" value="Submit Test" id="submit_test" onclick="submitTest()">';
@@ -33,10 +42,10 @@ if(isset($_GET['name'])){
                 '.$row['ques_no'].'. '.'<div  id="questionImg"><img class="img-fluid" src="'."./assets/question-image/".$row['question'].'"></div>'.'
                         </label>
                         <p>
-                            <input type="radio" name="question'.$row['ques_no'].'" value="Option 1" onclick="update_db_ans('.$row['ques_no'].',1)">'.' '.$row['option1'].'<br>
-                            <input type="radio" name="question'.$row['ques_no'].'" value="Option 1" onclick="update_db_ans('.$row['ques_no'].',2)">'.' '.$row['option2'].'<br>
-                            <input type="radio" name="question'.$row['ques_no'].'" value="Option 1" onclick="update_db_ans('.$row['ques_no'].',3)">'.' '.$row['option3'].'<br>
-                            <input type="radio" name="question'.$row['ques_no'].'" value="Option 1" onclick="update_db_ans('.$row['ques_no'].',4)">'.' '.$row['option4'].'<br>
+                            <input type="radio" name="question'.$row['ques_no'].'" value="Option 1" onclick="update_db_ans('.$row['ques_no'].',1)" '.$checked_1.' >'.' '.$row['option1'].'<br>
+                            <input type="radio" name="question'.$row['ques_no'].'" value="Option 1" onclick="update_db_ans('.$row['ques_no'].',2)" '.$checked_2.' >'.' '.$row['option2'].'<br>
+                            <input type="radio" name="question'.$row['ques_no'].'" value="Option 1" onclick="update_db_ans('.$row['ques_no'].',3)" '.$checked_3.' >'.' '.$row['option3'].'<br>
+                            <input type="radio" name="question'.$row['ques_no'].'" value="Option 1" onclick="update_db_ans('.$row['ques_no'].',4)" '.$checked_4.' >'.' '.$row['option4'].'<br>
                         </p>
                         <input type="button" value="Next Question" id="next_question_button" name="submit" onclick="next_question()" style="margin-left:10px;" class="nextbutton">
                         <input type="button" value="Submit Test" id="submit_test" onclick="submitTest()">';
@@ -47,10 +56,10 @@ if(isset($_GET['name'])){
                             '.$row['ques_no'].'. '.$row['question'].'
                         </label>
                         <p>
-                            <input type="radio" name="question'.$row['ques_no'].'" value="Option 1" onclick="update_db_ans('.$row['ques_no'].',1)">'.' '.'<div  id="questionImg"><img class="img-fluid" src="'."./assets/question-image/".$row['option1'].'"></div>'.'<br>
-                            <input type="radio" name="question'.$row['ques_no'].'" value="Option 1" onclick="update_db_ans('.$row['ques_no'].',2)">'.' '.'<div  id="questionImg"><img class="img-fluid" src="'."./assets/question-image/".$row['option1'].'"></div>'.'<br>
-                            <input type="radio" name="question'.$row['ques_no'].'" value="Option 1" onclick="update_db_ans('.$row['ques_no'].',3)">'.' '.'<div  id="questionImg"><img class="img-fluid" src="'."./assets/question-image/".$row['option1'].'"></div>'.'<br>
-                            <input type="radio" name="question'.$row['ques_no'].'" value="Option 1" onclick="update_db_ans('.$row['ques_no'].',4)">'.' '.'<div  id="questionImg"><img class="img-fluid" src="'."./assets/question-image/".$row['option1'].'"></div>'.'<br>
+                            <input type="radio" name="question'.$row['ques_no'].'" value="Option 1" onclick="update_db_ans('.$row['ques_no'].',1)"'.$checked_1.'>'.' '.'<div  id="questionImg"><img class="img-fluid" src="'."./assets/question-image/".$row['option1'].'"></div>'.'<br>
+                            <input type="radio" name="question'.$row['ques_no'].'" value="Option 1" onclick="update_db_ans('.$row['ques_no'].',2)"'.$checked_2.'>'.' '.'<div  id="questionImg"><img class="img-fluid" src="'."./assets/question-image/".$row['option1'].'"></div>'.'<br>
+                            <input type="radio" name="question'.$row['ques_no'].'" value="Option 1" onclick="update_db_ans('.$row['ques_no'].',3)"'.$checked_3.'>'.' '.'<div  id="questionImg"><img class="img-fluid" src="'."./assets/question-image/".$row['option1'].'"></div>'.'<br>
+                            <input type="radio" name="question'.$row['ques_no'].'" value="Option 1" onclick="update_db_ans('.$row['ques_no'].',4)"'.$checked_4.'>'.' '.'<div  id="questionImg"><img class="img-fluid" src="'."./assets/question-image/".$row['option1'].'"></div>'.'<br>
                         </p>
                         <input type="button" value="Next Question" id="next_question_button" name="submit" onclick="next_question()" style="margin-left:10px;" class="nextbutton">
                         <input type="button" value="Submit Test" id="submit_test" onclick="submitTest()">';
@@ -61,10 +70,10 @@ if(isset($_GET['name'])){
                             '.$row['ques_no'].'. '.$row['question'].'
                         </label>
                         <p>
-                            <input type="radio" name="question'.$row['ques_no'].'" value="Option 1" onclick="update_db_ans('.$row['ques_no'].',1)">'.' '.$row['option1'].'<br>
-                            <input type="radio" name="question'.$row['ques_no'].'" value="Option 1" onclick="update_db_ans('.$row['ques_no'].',2)">'.' '.$row['option2'].'<br>
-                            <input type="radio" name="question'.$row['ques_no'].'" value="Option 1" onclick="update_db_ans('.$row['ques_no'].',3)">'.' '.$row['option3'].'<br>
-                            <input type="radio" name="question'.$row['ques_no'].'" value="Option 1" onclick="update_db_ans('.$row['ques_no'].',4)">'.' '.$row['option4'].'<br>
+                            <input type="radio" name="question'.$row['ques_no'].'" value="Option 1" onclick="update_db_ans('.$row['ques_no'].',1)"'.$checked_1.' >'.' '.$row['option1'].'<br>
+                            <input type="radio" name="question'.$row['ques_no'].'" value="Option 1" onclick="update_db_ans('.$row['ques_no'].',2)"'.$checked_2.'>'.' '.$row['option2'].'<br>
+                            <input type="radio" name="question'.$row['ques_no'].'" value="Option 1" onclick="update_db_ans('.$row['ques_no'].',3)"'.$checked_3.'>'.' '.$row['option3'].'<br>
+                            <input type="radio" name="question'.$row['ques_no'].'" value="Option 1" onclick="update_db_ans('.$row['ques_no'].',4)"'.$checked_4.'>'.' '.$row['option4'].'<br>
                         </p>
                         <input type="button" value="Next Question" id="next_question_button" name="submit" onclick="next_question()" style="margin-left:10px;" class="nextbutton">
                         <input type="button" value="Submit Test" id="submit_test" onclick="submitTest()">';
