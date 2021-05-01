@@ -16,7 +16,7 @@ function submitTest() {
 
         };
         request.send();        
-        window.location.href = 'result.php?testname='+testname+'&attempt='+attempt;
+        window.location.href = 'result.php?testname='+testname+'&attempt='+attempt+'&from_test='+'true';
 
     }
     // Submit Request Ends

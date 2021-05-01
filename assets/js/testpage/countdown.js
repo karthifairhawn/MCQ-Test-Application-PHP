@@ -41,7 +41,7 @@ document.addEventListener("DOMContentLoaded", function(){
                     request.send();        
                 
                 // Submit Request Ends
-                window.location.href = 'result.php?testname='+testname+'&attempt='+attempt;
+                window.location.href = 'result.php?testname='+testname+'&attempt='+attempt+'&from_test='+'true';
             }
             seconds = seconds < 10 ? '0' + seconds : seconds;
             countdown.innerHTML = "Min : "+minutes+":"+seconds;
