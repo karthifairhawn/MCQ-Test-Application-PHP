@@ -105,7 +105,7 @@ if(isset($_GET['name'])  and isset($_SESSION['u_name'])){
         <div class="container-fluid">
           <div class="navbar-wrapper">
 
-            <a class="navbar-brand" href="javascript:;">Mock Test - <span id="testname" onclick="fetch_time()"><?php echo $testname?></a></span>
+            <a class="navbar-brand" href="#header">Mock Test - <span id="testname" onclick="fetch_time()"><?php echo $testname?></a></span>
           </div>
           <button class="navbar-toggler" type="button" data-toggle="collapse" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
             <span class="sr-only">Toggle navigation</span>

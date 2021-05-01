@@ -16,6 +16,11 @@ if(isset($_GET['name'])){
     $checked_2 = $checked_check['answer1'];
     $checked_3 =$checked_check['answer1'];
     $checked_4 =$checked_check['answer1'];
+    if(mysqli_num_rows($data)>1){
+        $next_btn_code='<input type="button" value="Next Question" id="next_question_button" name="submit" onclick="next_question()" style="margin-left:10px;" class="nextbutton">';
+    }else{
+        $next_btn_code="";
+    }
     while($row = mysqli_fetch_assoc($data)){
         $q_image = explode(".",$row['question']);  
             $q_format = end($q_image);
@@ -33,8 +38,8 @@ if(isset($_GET['name'])){
                             <input type="radio" name="question'.$row['ques_no'].'" value="Option 1" onclick="update_db_ans('.$row['ques_no'].',3)">'.' '.'<div  id="questionImg"><img class="img-fluid" src="'."./assets/question-image/".$row['option1'].'" '.$checked_3.' ></div>'.'<br>
                             <input type="radio" name="question'.$row['ques_no'].'" value="Option 1" onclick="update_db_ans('.$row['ques_no'].',4)">'.' '.'<div  id="questionImg"><img class="img-fluid" src="'."./assets/question-image/".$row['option1'].'" '.$checked_4.' ></div>'.'<br>
                         </p>
-                        <input type="button" value="Next Question" id="next_question_button" name="submit" onclick="next_question()" style="margin-left:10px;" class="nextbutton">
-                        <input type="button" value="Submit Test" id="submit_test" onclick="submitTest()">';
+                        
+                        '.$next_btn_code.'<input type="button" value="Submit Test" id="submit_test" onclick="submitTest()">';
             
                 
             }elseif(($q_format == "jpg")  or ($q_format == "png") or ($q_format == "jpeg")){
@@ -47,8 +52,8 @@ if(isset($_GET['name'])){
                             <input type="radio" name="question'.$row['ques_no'].'" value="Option 1" onclick="update_db_ans('.$row['ques_no'].',3)" '.$checked_3.' >'.' '.$row['option3'].'<br>
                             <input type="radio" name="question'.$row['ques_no'].'" value="Option 1" onclick="update_db_ans('.$row['ques_no'].',4)" '.$checked_4.' >'.' '.$row['option4'].'<br>
                         </p>
-                        <input type="button" value="Next Question" id="next_question_button" name="submit" onclick="next_question()" style="margin-left:10px;" class="nextbutton">
-                        <input type="button" value="Submit Test" id="submit_test" onclick="submitTest()">';
+                        
+                        '.$next_btn_code.'<input type="button" value="Submit Test" id="submit_test" onclick="submitTest()">';
 
     
             }elseif(($o_format == "jpg")  or ($o_format == "png") or ($o_format == "jpeg")){
@@ -60,9 +65,8 @@ if(isset($_GET['name'])){
                             <input type="radio" name="question'.$row['ques_no'].'" value="Option 1" onclick="update_db_ans('.$row['ques_no'].',2)"'.$checked_2.'>'.' '.'<div  id="questionImg"><img class="img-fluid" src="'."./assets/question-image/".$row['option1'].'"></div>'.'<br>
                             <input type="radio" name="question'.$row['ques_no'].'" value="Option 1" onclick="update_db_ans('.$row['ques_no'].',3)"'.$checked_3.'>'.' '.'<div  id="questionImg"><img class="img-fluid" src="'."./assets/question-image/".$row['option1'].'"></div>'.'<br>
                             <input type="radio" name="question'.$row['ques_no'].'" value="Option 1" onclick="update_db_ans('.$row['ques_no'].',4)"'.$checked_4.'>'.' '.'<div  id="questionImg"><img class="img-fluid" src="'."./assets/question-image/".$row['option1'].'"></div>'.'<br>
-                        </p>
-                        <input type="button" value="Next Question" id="next_question_button" name="submit" onclick="next_question()" style="margin-left:10px;" class="nextbutton">
-                        <input type="button" value="Submit Test" id="submit_test" onclick="submitTest()">';
+                        </p>                        
+                        '.$next_btn_code.'<input type="button" value="Submit Test" id="submit_test" onclick="submitTest()">';
 
             
             }else{
@@ -75,8 +79,8 @@ if(isset($_GET['name'])){
                             <input type="radio" name="question'.$row['ques_no'].'" value="Option 1" onclick="update_db_ans('.$row['ques_no'].',3)"'.$checked_3.'>'.' '.$row['option3'].'<br>
                             <input type="radio" name="question'.$row['ques_no'].'" value="Option 1" onclick="update_db_ans('.$row['ques_no'].',4)"'.$checked_4.'>'.' '.$row['option4'].'<br>
                         </p>
-                        <input type="button" value="Next Question" id="next_question_button" name="submit" onclick="next_question()" style="margin-left:10px;" class="nextbutton">
-                        <input type="button" value="Submit Test" id="submit_test" onclick="submitTest()">';
+                        
+                        '.$next_btn_code.'<input type="button" value="Submit Test" id="submit_test" onclick="submitTest()">';
             }
 
         break;

@@ -20,6 +20,8 @@ function load_question(ques_no,pane=false){
     request.onreadystatechange = function() {
         if(this.readyState === 4 && this.status === 200) {
             document.getElementById("question-div").innerHTML = this.responseText;            
+            
+            document.getElementById('testname').scrollIntoView(true);
             if(ques_no == document.getElementById("total-ques").innerText){
                 document.getElementById("next_question_button").classList.add("visibility-no");
         
