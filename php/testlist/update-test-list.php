@@ -26,7 +26,7 @@ if(mysqli_num_rows($data)>0){
             <td>'.$row['name'].'</td>
             <td class="text-warning">'.$row['timeout'].'</td>
             <td><a href="test.php?name='.$row['name'].'" target="_blank" class="btn btn-primary '.$question_present.'" >Take Test</a></td>
-            <td><a href="#" onclick="popup(\''.$row['name'].'\')" class="btn btn-primary">Review <span>'.$row['name'].'</span></a></td>
+            <td><a href="#" onclick="popup(\''.$row['name'].'\')" class="btn btn-primary '.$question_present.'">Review <span>'.$row['name'].'</span></a></td>
             </tr>                                        
         </tbody>   ';
         

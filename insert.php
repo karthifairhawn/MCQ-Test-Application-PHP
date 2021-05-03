@@ -4,8 +4,19 @@ include 'php/conn.php';
 
 
 
+$test_name ="";
+$question_no ="";
+$question = "";
+$option1 ="";
+$option2 = "";
+$option4 =
+$positive_mark ="";
+$negative_mark ="";
+$hint ="";
+$answer = "";
+
+
 if(isset($_POST['test_name'])){
-    print_r($_POST);
     $test_name = $_POST['test_name'];
     $question_no = $_POST['question_no'];
     $question = $_POST['question'];
@@ -18,6 +29,11 @@ if(isset($_POST['test_name'])){
     $hint = $_POST['hint'];
     $answer = $_POST['answer'];
 
+    $query = "Insert into questions (ques_no, positive, negative, question, option1, option2, option3, option4, hint, answer, name) 
+    values ($question_no,$positive_mark,$negative_mark,'$question', '$option1', '$option2', '$option3', '$option4', '$hint', '$answer', '$test_name')";
+
+    mysqli_query($conn, $query);
+    $question_no++;
     
 }
 
@@ -47,18 +63,18 @@ if(isset($_POST['test_name'])){
 </head>
 <body>
     <form method="post" action=insert.php>
-        <input type="text" name="test_name" placeholder="test_name">
-        <input type="text" name="question_no" placeholder="ques-no">
-        <input type="text" name="question" placeholder="ques">
-        <input type="text" name="option1" placeholder="option1">
-        <input type="text" name="option2" placeholder="option2">
-        <input type="text" name="option3" placeholder="option3">
-        <input type="text" name="option4" placeholder="option4">
-        <input type="text" name="positive_mark" placeholder="positive_mark">
-        <input type="text" name="negative_mark" placeholder="negative_mark">
-        <input type="text" name="hint" placeholder="hint">
-        <input type="text" name="answer" placeholder="answer">
-        <input type="submit">
+        <input type="text" name="test_name" placeholder="test_name" value="<?php echo $test_name ?>"><br>
+        <input type="text" name="question_no" placeholder="ques-no" value="<?php echo $question_no ?>"><br>
+        <input type="text" name="question" placeholder="ques"><br>
+        <input type="text" name="option1" placeholder="option1"><br>
+        <input type="text" name="option2" placeholder="option2"><br>
+        <input type="text" name="option3" placeholder="option3"><br>
+        <input type="text" name="option4" placeholder="option4"><br>
+        <input type="text" name="positive_mark" placeholder="positive_mark" value="<?php echo $positive_mark ?>"><br>
+        <input type="text" name="negative_mark" placeholder="negative_mark" value="<?php echo $negative_mark ?>"><br>
+        <input type="text" name="hint" placeholder="hint" value="<?php echo $hint ?>"><br>
+        <input type="text" name="answer" placeholder="answer"><br>
+        <input type="submit"><br>
     </form>
 </body>
 </html>
