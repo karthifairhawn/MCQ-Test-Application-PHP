@@ -20,7 +20,7 @@ $result_data_query = "SELECT total_questions, unanswered_questions, answered_que
 $result_data = mysqli_query($conn,$result_data_query);
 $result_data = mysqli_fetch_assoc($result_data);
 if($from_test == 'true'){
-  $back_option = '';
+  $back_option = '<a class="btn btn-primary"href="testlist.php"><i class="fa fa-angle-left"></i>  Go Home</a>';
 }else{
   $back_option = '<a class="btn btn-primary"href="attempts.php?testname='.$testname.'"><i class="fa fa-angle-left"></i>  Go Back</a>';
 }

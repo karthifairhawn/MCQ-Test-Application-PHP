@@ -121,7 +121,31 @@ if(isset($_SESSION['u_name'])){
               </div>
 
               <div class="card-body">
-                <div class="table-responsive">
+                <div class="table-responsive" >
+                <style>
+                ::-webkit-scrollbar {
+                      -webkit-appearance: none;
+                  }
+
+                  ::-webkit-scrollbar:vertical {
+                      width: 12px;
+                  }
+
+                  ::-webkit-scrollbar:horizontal {
+                      height: 12px;
+                  }
+
+                  ::-webkit-scrollbar-thumb {
+                      background-color: rgba(0, 0, 0, .5);
+                      border-radius: 10px;
+                      border: 2px solid #ffffff;
+                  }
+
+                  ::-webkit-scrollbar-track {
+                      border-radius: 10px;
+                      background-color: #ffffff;
+                  }
+                </style>
                   <table class="table" id="table">
                     
                                  
