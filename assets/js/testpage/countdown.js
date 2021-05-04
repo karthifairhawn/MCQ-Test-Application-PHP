@@ -17,7 +17,7 @@ document.addEventListener("DOMContentLoaded", function(){
 
         const countdown = document.getElementById("countdown");
 
-        count_timer = setInterval(updatetime, 1000);
+        count_timer = setInterval(updatetime, 3000);
         testname=document.getElementById("testname").innerText;
         function updatetime(){
             const minutes = Math.floor(time/60);
@@ -41,6 +41,7 @@ document.addEventListener("DOMContentLoaded", function(){
                     request.send();        
                 
                 // Submit Request Ends
+                document.getElementById("wrapper").style.display = "none";
                 setTimeout(() => { window.location.href = 'result.php?testname='+testname+'&attempt='+attempt+'&from_test='+'true'; }, 2000);
 
                 

@@ -1,38 +1,22 @@
 <?php
 
-include 'php/conn.php';
 session_start();
-if(isset($_GET['name'])  and isset($_SESSION['u_name'])){
-    $testname = $_GET['name'];
-    $u_name = $_SESSION['u_name'];
-    $current_attempt = mysqli_query($conn, "SELECT * FROM attempts where user_id='$u_name' and test_name='$testname'");
-    $current_attempt = mysqli_num_rows($current_attempt);
-    $current_attempt++;
-    $_SESSION['attempt'] = $current_attempt;
-    
 
-    mysqli_query($conn, "INSERT into attempts (user_id, test_name, attempt) values ('$u_name', '$testname','$current_attempt')");
+if(isset($_SESSION['u_name'])){
+  include 'php/conn.php';
+  $u_name = $_SESSION['u_name'];
+  $name = $_SESSION['name'];
 }else{
-  header('Location: index.php');
+  header('Location:index.php');
 }
+
+
+$testname = $_GET['testname'];
+$attempt  = $_GET['attempt'];
+$attempt_info = "SELECT total_questions, unanswered_questions, answered_questions, correct_answers, wrong_answers, total_marks from attempts where test_name='$testname' and attempt=$attempt";
+$attempt_info = mysqli_query($conn,$attempt_info);
+$attempt_info = mysqli_fetch_assoc($attempt_info);
 ?>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -50,7 +34,7 @@ if(isset($_GET['name'])  and isset($_SESSION['u_name'])){
 <html lang="en">
 
 <head>
-  <title>Mock Test</title>
+  <title>Answers</title>
   <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport" />
@@ -58,50 +42,40 @@ if(isset($_GET['name'])  and isset($_SESSION['u_name'])){
   <!--     Fonts and icons     -->
   <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
-
   <!-- Material Kit CSS -->
   <link href="assets/css/material-dashboard.css?v=2.1.2" rel="stylesheet" />
   <link href="assets/css/main.css" rel="stylesheet" />
-  <script src="assets/js/testpage/renderQuesno.js"></script>
-  <script type="text/javascript" src="assets/js/testpage/countdown.js"></script>
-  <script type="text/javascript" src="assets/js/testpage/previous_next.js"></script>
-  <script type="text/javascript" src="assets/js/testpage/update_db_answer.js"></script>
-  <script type="text/javascript" src="assets/js/testpage/submit_test.js"></script>
+  <script src="assets/js/omr/render_que_ans.js"></script>
+  
 </head>
 
-
-<body onload="renderQuesNo()">
-<div class="processing">
-Processing...
-<div class="loader"></div>
-</div>
-
-
-  <div class="wrapper" id="wrapper">
-
-
+<body onload="render_ques_ans();">
+  <div class="wrapper ">
     <div class="sidebar" data-color="orange" data-background-color="white" style="background-color:#eee;">
-      <!--
-      Tip 1: You can change the color of the sidebar using: data-color="purple | azure | green | orange | danger"
 
-      Tip 2: you can also add an image using data-image tag
-  -->
       <div class="logo" style="background-color:white;">
-        <a href="#" class="simple-text logo-normal"><?php echo $_SESSION['name']?></a>
-        <input type="hidden" id="u_name" value="<?php echo $_SESSION['u_name']?>">
+        <a href="#" class="simple-text logo-normal">
+          <?php echo $_SESSION['name']; ?>
+        </a>
       </div>
       <div class="sidebar-wrapper" style="background-color:white;">
         <ul class="nav">
           <li class="nav-item active  ">
             <a class="nav-link" href="#0">
-              <i class="material-icons" style="color:white;">schedule</i>
-              <p style="color:white";>Time Left</p>
-              <p style="color:white"; id="countdown">Min : 20:00</p>
-            </a>
-            
-            <div class="question-container" id="question-container">
+              <i class="material-icons" style="color:white;">rate_review</i>
+              <p style="color:white";>Review Attempts</p>
               
-            </div>
+            </a>
+          </li>
+          <li class="nav-item active" >
+                <div class="whole-result" style="padding:10px;">
+                    <label >Attempt : <span id="attempt"><?php echo $attempt ?></span></label><br>
+                    <label>Total Questions: <?php echo $attempt_info['total_questions']; ?></label><br>
+                    <label>Answered Questions: <?php echo $attempt_info['answered_questions']; ?></label><br>
+                    <label>Unanswered Questions:<?php echo $attempt_info['unanswered_questions']; ?></label><br>  
+                    <label>Correct Answers:<?php echo $attempt_info['correct_answers']; ?></label><br>                     
+                    <label>Wrong Answers: <?php echo $attempt_info['wrong_answers']; ?></label><br>                                       
+                    <label style="font-weight:600">Total Marks Obtained:<?php echo $attempt_info['total_marks']; ?></label><br>                          </div>
           </li>
           <!-- your sidebar here -->
         </ul>
@@ -112,8 +86,14 @@ Processing...
       <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top ">
         <div class="container-fluid">
           <div class="navbar-wrapper">
+            <a href="testlist.php">
+              <i class="material-icons">home</i>
+            </a>
+            <a class="navbar-brand" href="javascript:;">Answers - <span id="test-name">
+            <?php echo $testname ?>
+            </span></a>
 
-            <a class="navbar-brand" href="#header">Mock Test - <span id="testname" onclick="fetch_time()"><?php echo $testname?></a></span>
+
           </div>
           <button class="navbar-toggler" type="button" data-toggle="collapse" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
             <span class="sr-only">Toggle navigation</span>
@@ -149,22 +129,37 @@ Processing...
               background: linear-gradient(to right, #021B79, #093028); 
               font-family:verdana;
               text-align:center">
-                <h4 class="card-title"><?php echo $testname ?></h4>
+                <h4 class="card-title">Answers</h4>
               </div>
 
-              <div class="card-body">
-                <div class="table-responsive">
-                    <form>
-                        <div id="question-div">                         
-                        <!-- Questions will load here -->
-                        
-                        </div>                                                
-                        
-                        
-                        
+                <div class="card-body" id="question-div">
 
-                    </form>
-                </div>
+                    <div id="question-div">                                                           
+                        <label class="question">
+                            1. Tell me your answer ? <span class=wrong><i class="fa fa-times"></i> Mark : -1</span>
+                        </label>
+                        <p>
+                            <input type="radio" name="question1" value="Option 1" > <span class="answer"> Answer is 6 </span><br>
+                            <input type="radio" name="question1" value="Option 1" > <span> Answer is 8 </span><br>
+                            <input type="radio" name="question1" value="Option 1" > <span class="wrong"> Answer is 10 </span><br>
+                            <input type="radio" name="question1" value="Option 1" > <span> Answer is 3 </span><br>
+                        </p>                 
+                    </div>
+
+                    <div id="question-div">           
+                        <label class="question">
+                            2. Tell me your answer ? <span class="answer"><i class="fa fa-check ">Mark : +4</i></span>
+                        </label>
+                        <p>
+                            <input type="radio" name="question1" value="Option 1" > <span class="answer"> Answer is 6 </span><br>
+                            <input type="radio" name="question1" value="Option 1" > <span> Answer is 8 </span><br>
+                            <input type="radio" name="question1" value="Option 1" > <span> Answer is 10 </span><br>
+                            <input type="radio" name="question1" value="Option 1" > <span> Answer is 3 </span><br>
+                        </p>                 
+                    </div>
+
+                    
+                    
               </div>
 
           </div>
@@ -178,7 +173,6 @@ Processing...
 
       <footer class="footer">
         <div class="container-fluid">
-          <input type="hidden" id="u_name" value="<?php echo $_SESSION['u_name'] ?>">
           <div class="copyright float-right">
             &copy;
             <script>
@@ -191,17 +185,6 @@ Processing...
       </footer>
     </div>
   </div>
-
-
-<style>
-  input[type="submit"]{
-    padding: 7px;
-    background-color: rgb(94, 228, 17,0.6);
-    outline: none;
-    border: none;
-    float: right;
-  }
-</style>
 <!--   Core JS Files   -->
 <script src="assets/js/core/jquery.min.js"></script>
   <script src="assets/js/core/popper.min.js"></script>
@@ -239,11 +222,7 @@ Processing...
   <script src="assets/js/plugins/bootstrap-notify.js"></script>
   <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
   <script src="assets/js/material-dashboard.js?v=2.1.2" type="text/javascript"></script>
+  
 </body>
 
-
 </html>
-
-
-
-

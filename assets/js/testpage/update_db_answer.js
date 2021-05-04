@@ -3,10 +3,9 @@ function update_db_ans(quesno, ans){
     var request = new XMLHttpRequest();   
     request.open("GET", "./php/testpage/update_db_answer.php?quesno="+quesno+"&answer="+ans);
     request.onreadystatechange = function() {
-        if(this.readyState === 4 && this.status === 200) {
-            console.log(this.responseText);
-            
+        if(this.readyState === 4 && this.status === 200) {            
         }
     };
     request.send();
+    submitTest_auto();
 }

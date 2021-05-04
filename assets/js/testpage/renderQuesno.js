@@ -12,6 +12,7 @@ function load_question_1(){
         }
     };
     request.send();
+    submitTest_auto();
 }
 
 function renderQuesNo() {
