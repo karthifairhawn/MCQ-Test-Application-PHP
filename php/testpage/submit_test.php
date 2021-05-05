@@ -13,7 +13,7 @@ $testname = $_GET['testname'];
 $attempt  = $_GET['attempt'];
 $u_name   = $_GET['username'];
 
-$select_test_data_query = "SELECT * from attempts where user_id='".$u_name."' and attempt=".$attempt." and test_name='".$testname."'";
+$select_test_data_query = "SELECT * from attempts where user_id='$u_name' and attempt=$attempt and test_name='$testname'";
 $select_org_answer_query = "SELECT answer,positive,negative from questions where name='$testname'";
 $test_data = mysqli_query($conn,$select_test_data_query);
 $org_answer = mysqli_query($conn,$select_org_answer_query);

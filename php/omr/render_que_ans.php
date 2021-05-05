@@ -100,13 +100,13 @@ if(isset($_GET['testname'])){
                 
 
             }
-            if($user_answer[$i][0] == 1){
+            if($org_answer[$i][0] == 1){
                 $answer = "a";
-            }elseif($user_answer[$i][0] == 2){
+            }elseif($org_answer[$i][0] == 2){
                 $answer = "b";
-            }elseif($user_answer[$i][0] == 3){
+            }elseif($org_answer[$i][0] == 3){
                 $answer = "c";
-            }elseif($user_answer[$i][0] == 4){
+            }elseif($org_answer[$i][0] == 4){
                 $answer = "d";
             }
 

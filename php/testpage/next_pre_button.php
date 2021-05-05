@@ -13,7 +13,7 @@ if(isset($_GET['name'])){
     if($ques_no==1){
         $ques_no=0;
     }
-    $checked_check = "select answer$ques_no from attempts where user_id='$user_id' and attempt=$attempt";
+    $checked_check = "select answer$ques_no from attempts where user_id='$user_id' and attempt=$attempt and test_name='$name'";
     $checked_check = mysqli_query($conn,$checked_check);
     $checked_check = (mysqli_fetch_Assoc($checked_check));
     $checked_check = $checked_check['answer'.$ques_no];
