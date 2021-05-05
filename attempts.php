@@ -127,6 +127,7 @@ $_SESSION['attempt_page']=$_SERVER['REQUEST_URI'];
                     <th>Time</th>
                     <th>Mark</th>
                     <th>Review</th>
+                    <th>Answers</th>
                   </thead>
                   <tbody id="table-body">
                     

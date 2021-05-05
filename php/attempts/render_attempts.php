@@ -12,6 +12,7 @@ while ($attempt = mysqli_fetch_assoc($attempt_data)){
             <td>'.$attempt["test_date"].'</td>
             <td>'.$attempt['total_marks'].'</td>
             <td> <a href="result.php?testname='.$test_name.'&attempt='.$attempt['attempt'].'&from_test=false" class="btn btn-primary">Review Attempt</a></td>
+            <td><a href="./omr.php?testname='.$test_name.'&attempt='.$attempt['attempt'].'" class="btn btn-primary">Reveal Answers</a></td>
             </tr>';
 }
 ?>
