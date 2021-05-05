@@ -9,3 +9,11 @@ function update_db_ans(quesno, ans){
     request.send();
     submitTest_auto();
 }
+
+function uncheck(){
+    document.getElementById('radio1').checked = false;
+    document.getElementById('radio2').checked = false;
+    document.getElementById('radio3').checked = false;
+    document.getElementById('radio4').checked = false;
+
+}
