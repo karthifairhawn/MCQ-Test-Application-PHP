@@ -32,6 +32,7 @@ if(isset($_GET['testname'])){
     $org_answer = [];
 
     while($row = mysqli_fetch_assoc($org_answer_q)){
+
         $temp = array_values($row);
         array_push($org_answer,array_values($temp));
     }
@@ -77,7 +78,14 @@ if(isset($_GET['testname'])){
     $wrong_answer_3 = "";
     $wrong_answer_4 = "";
     $i=0;
+  
     while($row = mysqli_fetch_assoc($data)){
+        $view_soln_test = "View Complete Solution";
+            $solution_img_name = $row['solution'];
+            $solution_link = './assets/question-image/'.$solution_img_name;
+            if($solution_link == "./assets/question-image/"){
+                $view_soln_test = "";
+            }
             $corerct_answer="";
             $wrong_answer="";
             if($user_answer[$i]==1){
@@ -91,6 +99,8 @@ if(isset($_GET['testname'])){
             }
             $wrong_mark_html = '<span class=wrong><i class="fa fa-times"></i> Mark : '.$org_answer[$i][2].'</span>';
             $correct_mark_html = '<span class="answer"><i class="fa fa-check ">Mark : '.$org_answer[$i][1].'</i></span>';
+
+
             if($org_answer[$i][0] == $user_answer[$i]){                
                 $corerct_answer = $correct_mark_html;
 
@@ -130,7 +140,8 @@ if(isset($_GET['testname'])){
                         <input type="radio" name="question'.$row['ques_no'].'" value="Option 1" '.$checked_2.' disabled>'.' '.'<div  id="questionImg"><img class="img-fluid" src="'."./assets/question-image/".$row['option1'].'" '.$checked_2.' ></div></span>'.'<br>
                         <input type="radio" name="question'.$row['ques_no'].'" value="Option 1" '.$checked_3.' disabled>'.' '.'<div  id="questionImg"><img class="img-fluid" src="'."./assets/question-image/".$row['option1'].'" '.$checked_3.' ></div></span>'.'<br>
                         <input type="radio" name="question'.$row['ques_no'].'" value="Option 1" '.$checked_4.' disabled>'.' '.'<div  id="questionImg"><img class="img-fluid" src="'."./assets/question-image/".$row['option1'].'" '.$checked_4.' ></div></span>'.'<br>
-                        Correct Answer : '.$answer.';
+                        Correct Answer : '.$answer.';<br>
+                        <a  data-lightbox="image-1" href="'.$solution_link.'" style="font-weight:600;">'.$view_soln_test.'</a><br>
                         </p>';
                         
                         
@@ -145,7 +156,8 @@ if(isset($_GET['testname'])){
                             <input type="radio" name="question'.$row['ques_no'].'" value="Option 1"  '.$checked_2.' disabled>'.' '.$row['option2'].'<br>
                             <input type="radio" name="question'.$row['ques_no'].'" value="Option 1"  '.$checked_3.' disabled>'.' '.$row['option3'].'<br>
                             <input type="radio" name="question'.$row['ques_no'].'" value="Option 1"  '.$checked_4.' disabled>'.' '.$row['option4'].'<br>
-                            Correct Answer : '.$answer.';
+                            Correct Answer : '.$answer.';<br>
+                            <a  data-lightbox="image-1" href="'.$solution_link.'" style="font-weight:600;">'.$view_soln_test.'</a><br>
                         </p>';
                         
                         
@@ -160,7 +172,8 @@ if(isset($_GET['testname'])){
                             <input type="radio" name="question'.$row['ques_no'].'" value="Option 1" '.$checked_2.' disabled>'.' '.'<div  id="questionImg"><img class="img-fluid" src="'."./assets/question-image/".$row['option1'].'"></div>'.'<br>
                             <input type="radio" name="question'.$row['ques_no'].'" value="Option 1" '.$checked_3.' disabled>'.' '.'<div  id="questionImg"><img class="img-fluid" src="'."./assets/question-image/".$row['option1'].'"></div>'.'<br>
                             <input type="radio" name="question'.$row['ques_no'].'" value="Option 1" '.$checked_4.' disabled>'.' '.'<div  id="questionImg"><img class="img-fluid" src="'."./assets/question-image/".$row['option1'].'"></div>'.'<br>
-                            Correct Answer : '.$answer.';
+                            Correct Answer : '.$answer.';<br>
+                            <a data-lightbox="image-1" href="'.$solution_link.'" style="font-weight:600;">'.$view_soln_test.'</a><br>
                         </p>';
                         
 
@@ -174,7 +187,9 @@ if(isset($_GET['testname'])){
                             <input type="radio" name="question'.$row['ques_no'].'" value="Option 1"  '.$checked_2.' disabled>'.' '.$row['option2'].'</span><br>
                             <input type="radio" name="question'.$row['ques_no'].'" value="Option 1"  '.$checked_3.' disabled>'.' '.$row['option3'].'</span><br>
                             <input type="radio" name="question'.$row['ques_no'].'" value="Option 1"  '.$checked_4.' disabled>'.' '.$row['option4'].'</span><br>
-                            Correct Answer : '.$answer.';
+                            Correct Answer : '.$answer.';<br>
+                            
+                            <a data-lightbox="image-1" href="'.$solution_link.'" style="font-weight:600;">'.$view_soln_test.'</a><br>
                         </p>';                                                             
             }
                         

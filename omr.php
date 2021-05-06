@@ -45,6 +45,8 @@ $attempt_info = mysqli_fetch_assoc($attempt_info);
   <!-- Material Kit CSS -->
   <link href="assets/css/material-dashboard.css?v=2.1.2" rel="stylesheet" />
   <link href="assets/css/main.css" rel="stylesheet" />
+  <link href="assets/css/lightbox.css" rel="stylesheet" />
+  
   <script src="assets/js/omr/render_que_ans.js"></script>
   
 </head>
@@ -222,6 +224,7 @@ $attempt_info = mysqli_fetch_assoc($attempt_info);
   <script src="assets/js/plugins/bootstrap-notify.js"></script>
   <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
   <script src="assets/js/material-dashboard.js?v=2.1.2" type="text/javascript"></script>
+  <script src="assets/js/lightbox.js"></script>
   
 </body>
 
