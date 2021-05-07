@@ -62,24 +62,26 @@ if(isset($_GET['testname'])){
 
 
 
-    $checked_1 ="";
-    $checked_2 ="";
-    $checked_3 ="";
-    $checked_4 ="";
+  
 
     $result="";
 
-    $corerct_answer_1 ="";
-    $corerct_answer_2 ="";
-    $corerct_answer_3 ="";
-    $corerct_answer_4 ="";
-    $wrong_answer_1 = "";
-    $wrong_answer_2 = "";
-    $wrong_answer_3 = "";
-    $wrong_answer_4 = "";
     $i=0;
   
     while($row = mysqli_fetch_assoc($data)){
+        
+        $corerct_answer_1 ="";
+        $corerct_answer_2 ="";
+        $corerct_answer_3 ="";
+        $corerct_answer_4 ="";
+        $wrong_answer_1 = "";
+        $wrong_answer_2 = "";
+        $wrong_answer_3 = "";
+        $wrong_answer_4 = "";
+        $checked_1 ="";
+        $checked_2 ="";
+        $checked_3 ="";
+        $checked_4 ="";        
         $view_soln_test = "View Complete Solution";
             $solution_img_name = $row['solution'];
             $solution_link = './assets/question-image/'.$solution_img_name;
@@ -105,10 +107,11 @@ if(isset($_GET['testname'])){
                 $corerct_answer = $correct_mark_html;
 
                 
+            }elseif($user_answer[$i] == 0){
+                $corerct_answer = '<span class=neutral>Mark : +0 </span>';
             }elseif($org_answer[$i][0] != $user_answer[$i]){
                 $wrong_answer=$wrong_mark_html;
                 
-
             }
             if($org_answer[$i][0] == 1){
                 $answer = "a";

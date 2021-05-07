@@ -93,4 +93,10 @@ input[type="button"]{
       justify-content: space-between;
   }
 
- 
+ .neutral {
+    background-color:rgba(75, 70, 70, 0.534);
+    color:white;
+    padding: 5px;
+    border-radius: 5px;
+
+ }
