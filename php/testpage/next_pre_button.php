@@ -3,13 +3,13 @@
 session_start();
 include '../conn.php';
 if(isset($_GET['name'])){
-    $name=$_GET['name'];
-    $ques_no = $_GET['quesno'];
+    $name=mysqli_real_escape_string($conn, $_GET['name']);
+    $ques_no = mysqli_real_escape_string($conn, $_GET['quesno']);
     $image =false;
     $data = mysqli_query($conn,"Select * from questions where name='$name' and ques_no='$ques_no'");  
 
-    $user_id = $_SESSION['u_name'];
-    $attempt = $_GET['attempt'];
+    $user_id = mysqli_real_escape_string($conn, $_SESSION['u_name']);
+    $attempt = mysqli_real_escape_string($conn, $_GET['attempt']);
     if($ques_no==1){
         $ques_no=0;
     }

@@ -4,15 +4,15 @@ session_start();
 
 if(isset($_SESSION['u_name'])){
   include 'php/conn.php';
-  $u_name = $_SESSION['u_name'];
-  $name = $_SESSION['name'];
+  $u_name = mysqli_real_escape_string($conn, $_SESSION['u_name']);
+  $name = mysqli_real_escape_string($conn, $_SESSION['name']);
 }else{
   header('Location:index.php');
 }
 
 
-$testname = $_GET['testname'];
-$attempt  = $_GET['attempt'];
+$testname = mysqli_real_escape_string($conn, $_GET['testname']);
+$attempt  = mysqli_real_escape_string($conn, $_GET['attempt']);
 $attempt_info = "SELECT total_questions, unanswered_questions, answered_questions, correct_answers, wrong_answers, total_marks from attempts where test_name='$testname' and attempt=$attempt";
 $attempt_info = mysqli_query($conn,$attempt_info);
 $attempt_info = mysqli_fetch_assoc($attempt_info);
@@ -57,7 +57,7 @@ $attempt_info = mysqli_fetch_assoc($attempt_info);
 
       <div class="logo" style="background-color:white;">
         <a href="#" class="simple-text logo-normal">
-          <?php echo $_SESSION['name']; ?>
+          <?php echo htmlspecialchars($_SESSION['name']); ?>
         </a>
       </div>
       <div class="sidebar-wrapper" style="background-color:white;">
@@ -71,13 +71,13 @@ $attempt_info = mysqli_fetch_assoc($attempt_info);
           </li>
           <li class="nav-item active" >
                 <div class="whole-result" style="padding:10px;">
-                    <label >Attempt : <span id="attempt"><?php echo $attempt ?></span></label><br>
-                    <label>Total Questions: <?php echo $attempt_info['total_questions']; ?></label><br>
-                    <label>Answered Questions: <?php echo $attempt_info['answered_questions']; ?></label><br>
-                    <label>Unanswered Questions:<?php echo $attempt_info['unanswered_questions']; ?></label><br>  
-                    <label>Correct Answers:<?php echo $attempt_info['correct_answers']; ?></label><br>                     
-                    <label>Wrong Answers: <?php echo $attempt_info['wrong_answers']; ?></label><br>                                       
-                    <label style="font-weight:600">Total Marks Obtained:<?php echo $attempt_info['total_marks']; ?></label><br>                          </div>
+                    <label >Attempt : <span id="attempt"><?php echo htmlspecialchars($attempt); ?></span></label><br>
+                    <label>Total Questions: <?php echo htmlspecialchars($attempt_info['total_questions']); ?></label><br>
+                    <label>Answered Questions: <?php echo htmlspecialchars($attempt_info['answered_questions']); ?></label><br>
+                    <label>Unanswered Questions:<?php echo htmlspecialchars($attempt_info['unanswered_questions']); ?></label><br>  
+                    <label>Correct Answers:<?php echo htmlspecialchars($attempt_info['correct_answers']); ?></label><br>                     
+                    <label>Wrong Answers: <?php echo htmlspecialchars($attempt_info['wrong_answers']); ?></label><br>                                       
+                    <label style="font-weight:600">Total Marks Obtained:<?php echo htmlspecialchars($attempt_info['total_marks']); ?></label><br>                          </div>
           </li>
           <!-- your sidebar here -->
         </ul>
@@ -92,7 +92,7 @@ $attempt_info = mysqli_fetch_assoc($attempt_info);
               <i class="material-icons">home</i>
             </a>
             <a class="navbar-brand" href="javascript:;">Answers - <span id="test-name">
-            <?php echo $testname ?>
+            <?php echo htmlspecialchars($testname); ?>
             </span></a>
 
 

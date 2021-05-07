@@ -5,17 +5,17 @@ session_start();
 
 if(isset($_SESSION['u_name'])){
   include 'php/conn.php';
-  $u_name = $_SESSION['u_name'];
-  $name = $_SESSION['name'];
+  $u_name = mysqli_real_escape_string($conn, $_SESSION['u_name']);
+  $name = mysqli_real_escape_string($conn, $_SESSION['name']);
 }else{
   header('Location:index.php');
 }
 
 
-$testname = $_GET['testname'];
-$attempt  = $_GET['attempt'];
-$from_test = $_GET['from_test'];
-$attempt_page = $_SESSION['attempt_page'];
+$testname = mysqli_real_escape_string($conn, $_GET['testname']);
+$attempt  = mysqli_real_escape_string($conn, $_GET['attempt']);
+$from_test = mysqli_real_escape_string($conn, $_GET['from_test']);
+$attempt_page = mysqli_real_escape_string($conn, $_SESSION['attempt_page']);
 $result_data_query = "SELECT total_questions, unanswered_questions, answered_questions, correct_answers, wrong_answers, total_marks from attempts where test_name='$testname' and attempt=$attempt";
 $result_data = mysqli_query($conn,$result_data_query);
 $result_data = mysqli_fetch_assoc($result_data);
@@ -129,13 +129,13 @@ if($from_test == 'true'){
               </div>
 
               <div class="card-body">
-                <label>Total Questions: <?php echo $result_data['total_questions']; ?></label><br>
-                <label>Answered Questions: <?php echo $result_data['answered_questions']; ?></label><br>
-                <label>Unanswered Questions:<?php echo $result_data['unanswered_questions']; ?></label><br>  
-                <label>Correct Answers:<?php echo $result_data['correct_answers']; ?></label><br>                     
-                <label>Wrong Answers: <?php echo $result_data['wrong_answers']; ?></label><br>                                     
-                <label style="font-weight:600">Total Marks Obtained:<?php echo $result_data['total_marks']; ?></label><br>          
-                <?php echo $back_option ?>
+                <label>Total Questions: <?php echo htmlspecialchars($result_data['total_questions']); ?></label><br>
+                <label>Answered Questions: <?php echo htmlspecialchars($result_data['answered_questions']); ?></label><br>
+                <label>Unanswered Questions:<?php echo htmlspecialchars($result_data['unanswered_questions']); ?></label><br>  
+                <label>Correct Answers:<?php echo htmlspecialchars($result_data['correct_answers']); ?></label><br>                     
+                <label>Wrong Answers: <?php echo htmlspecialchars($result_data['wrong_answers']); ?></label><br>                                     
+                <label style="font-weight:600">Total Marks Obtained:<?php echo htmlspecialchars($result_data['total_marks']); ?></label><br>          
+                <?php echo htmlspecialchars($back_option); ?>
                 </div>
               </div>
 

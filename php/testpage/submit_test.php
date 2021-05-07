@@ -9,9 +9,9 @@ $correct_answers = 0;
 $wrong_answers = 0;
 $total_marks = 0;
 
-$testname = $_GET['testname'];
-$attempt  = $_GET['attempt'];
-$u_name   = $_GET['username'];
+$testname = mysqli_real_escape_string($conn, $_GET['testname']);
+$attempt  = mysqli_real_escape_string($conn, $_GET['attempt']);
+$u_name   = mysqli_real_escape_string($conn, $_GET['username']);
 
 $select_test_data_query = "SELECT * from attempts where user_id='$u_name' and attempt=$attempt and test_name='$testname'";
 $select_org_answer_query = "SELECT answer,positive,negative from questions where name='$testname'";

@@ -55,7 +55,7 @@ if(isset($_SESSION['u_name'])){
   -->
       <div class="logo" style="background-color:white;">
         <a href="#" class="simple-text logo-normal">
-          <?php echo $_SESSION['name']; ?>
+          <?php echo htmlspecialchars($_SESSION['name']); ?>
         </a>
       </div>
       <div class="sidebar-wrapper" style="background-color:white;">

@@ -3,13 +3,13 @@
 session_start();
 include '../conn.php';
 if(isset($_GET['name'])){
-    $name=$_GET['name'];
+    $name= mysqli_real_escape_string($conn, $_GET['name']);
     $data = mysqli_query($conn,"Select * from questions where name='$name'");    
     if(mysqli_num_rows($data)==0){
         echo "No questions added yet";
     }
-    $user_id = $_SESSION['u_name'];
-    $attempt = $_GET['attempt'];
+    $user_id = mysqli_real_escape_string($conn, $_SESSION['u_name']);
+    $attempt = mysqli_real_escape_string($conn, $_GET['attempt']);
     $checked_check_query = mysqli_query($conn,"select answer1 from attempts where user_id='$user_id' and attempt=$attempt");
     $checked_check = (mysqli_fetch_Assoc($checked_check_query));
     $checked_1 =$checked_check['answer1'];

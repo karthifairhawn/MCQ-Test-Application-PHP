@@ -6,17 +6,17 @@ include '../conn.php';
 
 if(isset($_GET['testname'])){
     
-    $u_name = $_SESSION['u_name'];
-    $testname=$_GET['testname'];    
+    $u_name = mysqli_real_escape_string($conn, $_SESSION['u_name']);
+    $testname=mysqli_real_escape_string($conn, $_GET['testname']);    
     $data = mysqli_query($conn,"Select * from questions where name='$testname'");   
     if(mysqli_num_rows($data)==0){
         // header('Location:index.php');
     }
 
 
-    $user_id = $_SESSION['u_name'];
-    $attempt = $_GET['attempt'];
-    $back_url= $_SESSION['attempt_page'];
+    $user_id = mysqli_real_escape_string($conn, $_SESSION['u_name']);
+    $attempt = mysqli_real_escape_string($conn, $_GET['attempt']);
+    $back_url= mysqli_real_escape_string($conn, $_SESSION['attempt_page']);
 
     $attempt_info = "SELECT total_questions from attempts where test_name='$testname' and attempt=$attempt";
     $attempt_info = mysqli_query($conn,$attempt_info);

@@ -54,7 +54,7 @@ $_SESSION['attempt_page']=$_SERVER['REQUEST_URI'];
   -->
       <div class="logo" style="background-color:white;">
         <a href="http://www.creative-tim.com" class="simple-text logo-normal">
-          <?php echo $_SESSION['name']; ?>
+          <?php echo htmlspecialchars($_SESSION['name']); ?>
         </a>
       </div>
       <div class="sidebar-wrapper" style="background-color:white;">
@@ -77,7 +77,7 @@ $_SESSION['attempt_page']=$_SERVER['REQUEST_URI'];
             <a href="testlist.php">
               <i class="material-icons">home</i>
             </a>
-            <a class="navbar-brand" href="javascript:;">All Taken Tests - <span id="test-name"><?php echo $testname ?></span></a>
+            <a class="navbar-brand" href="javascript:;">All Taken Tests - <span id="test-name"><?php echo htmlspecialchars($testname); ?></span></a>
 
 
           </div>

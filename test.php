@@ -3,8 +3,8 @@
 include 'php/conn.php';
 session_start();
 if(isset($_GET['name'])  and isset($_SESSION['u_name'])){
-    $testname = $_GET['name'];
-    $u_name = $_SESSION['u_name'];
+    $testname = mysqli_real_escape_string($conn, $_GET['name']);
+    $u_name = mysqli_real_escape_string($conn, $_SESSION['u_name']);
     $current_attempt = mysqli_query($conn, "SELECT * FROM attempts where user_id='$u_name' and test_name='$testname'");
     $current_attempt = mysqli_num_rows($current_attempt);
     $current_attempt++;
@@ -87,8 +87,8 @@ Processing...
       Tip 2: you can also add an image using data-image tag
   -->
       <div class="logo" style="background-color:white;">
-        <a href="#" class="simple-text logo-normal"><?php echo $_SESSION['name']?></a>
-        <input type="hidden" id="u_name" value="<?php echo $_SESSION['u_name']?>">
+        <a href="#" class="simple-text logo-normal"><?php echo htmlspecialchars($_SESSION['name']); ?></a>
+        <input type="hidden" id="u_name" value="<?php echo htmlspecialchars($_SESSION['u_name']); ?>">
       </div>
       <div class="sidebar-wrapper" style="background-color:white;">
         <ul class="nav">
@@ -113,7 +113,7 @@ Processing...
         <div class="container-fluid">
           <div class="navbar-wrapper">
 
-            <a class="navbar-brand" href="#header">Mock Test - <span id="testname" onclick="fetch_time()"><?php echo $testname?></a></span>
+            <a class="navbar-brand" href="#header">Mock Test - <span id="testname" onclick="fetch_time()"><?php echo htmlspecialchars($testname);?></a></span>
           </div>
           <button class="navbar-toggler" type="button" data-toggle="collapse" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
             <span class="sr-only">Toggle navigation</span>
@@ -149,7 +149,7 @@ Processing...
               background: linear-gradient(to right, #021B79, #093028); 
               font-family:verdana;
               text-align:center">
-                <h4 class="card-title"><?php echo $testname ?></h4>
+                <h4 class="card-title"><?php echo htmlspecialchars($testname); ?></h4>
               </div>
 
               <div class="card-body">
@@ -178,7 +178,7 @@ Processing...
 
       <footer class="footer">
         <div class="container-fluid">
-          <input type="hidden" id="u_name" value="<?php echo $_SESSION['u_name'] ?>">
+          <input type="hidden" id="u_name" value="<?php echo htmlspecialchars($_SESSION['u_name']); ?>">
           <div class="copyright float-right">
             &copy;
             <script>

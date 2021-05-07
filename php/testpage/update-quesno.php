@@ -2,13 +2,13 @@
 session_start();
 include '../conn.php';
 if(isset($_GET['name'])){    
-    $name=$_GET['name'];
-    $attempt = $_SESSION['attempt'];
+    $name= mysqli_real_escape_string($conn, $_GET['name']);
+    $attempt =  mysqli_real_escape_string($conn, $_SESSION['attempt']);
     $data = mysqli_query($conn,"Select * from questions where name='$name'");
     $result='<a href="#" style="display:block;" >Total Questions :<span id="total-ques">'.mysqli_num_rows($data).'</span></a>
             <a href="#" style="display:block; padding:0px 15px;" >Attempt :<span id="curr-attempt">'.$attempt.'</span></a>';
     $ques_no = 1;
-    $u_name = $_SESSION['u_name'];
+    $u_name = mysqli_real_escape_string($conn, $_SESSION['u_name']);
     if($ques_no==1){
         $ques_no = 0;
     }

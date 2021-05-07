@@ -3,8 +3,8 @@
 
 include '../conn.php';
 session_start();
-$u_name = $_SESSION['u_name'];
-$test_name = $_GET['name'];
+$u_name = mysqli_real_escape_string($conn, $_SESSION['u_name']);
+$test_name =mysqli_real_escape_string($conn,  $_GET['name']);
 $attempt_data = mysqli_query($conn, "Select * from attempts where user_id='$u_name' and test_name='$test_name'");
 while ($attempt = mysqli_fetch_assoc($attempt_data)){
         echo '<tr>
