@@ -135,7 +135,7 @@ if($from_test == 'true'){
                 <label>Correct Answers:<?php echo htmlspecialchars($result_data['correct_answers']); ?></label><br>                     
                 <label>Wrong Answers: <?php echo htmlspecialchars($result_data['wrong_answers']); ?></label><br>                                     
                 <label style="font-weight:600">Total Marks Obtained:<?php echo htmlspecialchars($result_data['total_marks']); ?></label><br>          
-                <?php echo htmlspecialchars($back_option); ?>
+                <?php echo $back_option; ?>
                 </div>
               </div>
 

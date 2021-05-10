@@ -9,6 +9,8 @@ if(isset($_GET['name'])  and isset($_SESSION['u_name'])){
     $current_attempt = mysqli_num_rows($current_attempt);
     $current_attempt++;
     $_SESSION['attempt'] = $current_attempt;
+    $_SESSION['test_name'] = $testname;
+    echo $testname;
     
 
     mysqli_query($conn, "INSERT into attempts (user_id, test_name, attempt) values ('$u_name', '$testname','$current_attempt')");

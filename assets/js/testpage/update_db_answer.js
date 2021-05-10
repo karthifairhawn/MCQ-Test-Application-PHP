@@ -4,6 +4,8 @@ function update_db_ans(quesno, ans){
     request.open("GET", "./php/testpage/update_db_answer.php?quesno="+quesno+"&answer="+ans);
     request.onreadystatechange = function() {
         if(this.readyState === 4 && this.status === 200) {            
+            data = this.responseText;
+            console.log(data);
         }
     };
     request.send();
