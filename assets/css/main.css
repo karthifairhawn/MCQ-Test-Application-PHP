@@ -100,3 +100,43 @@ input[type="button"]{
     border-radius: 5px;
 
  }
+
+
+
+ /* Answer to: "custom scrollbar css" */
+
+#yourContainer::-webkit-scrollbar {
+	width: 12.34px;
+	/* You can add other properties & values */
+}
+
+#yourContainer::-webkit-scrollbar-track {
+	background-color: #123456;
+	/* You can add other properties & values */
+}
+
+#yourContainer::-webkit-scrollbar-thumb {
+	background: #123456;
+    outline: 1px solid #654321;
+	/* You can add other properties & values */
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  background-color: rgba(255, 255, 255, 0);
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1; 
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888; 
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555; 
+}

@@ -1,6 +1,6 @@
 <?php 
 
-include 'php/conn.php';
+include '../php/conn.php';
 
 
 
@@ -9,7 +9,8 @@ $question_no ="";
 $question = "";
 $option1 ="";
 $option2 = "";
-$option4 =
+$option3 = "";
+$option4 = "";
 $positive_mark ="";
 $negative_mark ="";
 $hint ="";
@@ -65,11 +66,11 @@ if(isset($_POST['test_name'])){
     <form method="post" action=insert.php>
         <input type="text" name="test_name" placeholder="test_name" value="<?php echo $test_name ?>"><br>
         <input type="text" name="question_no" placeholder="ques-no" value="<?php echo $question_no ?>"><br>
-        <input type="text" name="question" placeholder="ques"><br>
-        <input type="text" name="option1" placeholder="option1"><br>
-        <input type="text" name="option2" placeholder="option2"><br>
-        <input type="text" name="option3" placeholder="option3"><br>
-        <input type="text" name="option4" placeholder="option4"><br>
+        <input type="text" name="question" placeholder="ques" value="<?php echo $question; ?>" ><br>
+        <input type="text" name="option1" placeholder="option1" value="<?php echo $option1; ?>" ><br>
+        <input type="text" name="option2" placeholder="option2" value="<?php echo $option2; ?>" ><br>
+        <input type="text" name="option3" placeholder="option3" value="<?php echo $option3; ?>" ><br>
+        <input type="text" name="option4" placeholder="option4" value="<?php echo $option4; ?>" ><br>
         <input type="text" name="positive_mark" placeholder="positive_mark" value="<?php echo $positive_mark ?>"><br>
         <input type="text" name="negative_mark" placeholder="negative_mark" value="<?php echo $negative_mark ?>"><br>
         <input type="text" name="hint" placeholder="hint" value="<?php echo $hint ?>"><br>

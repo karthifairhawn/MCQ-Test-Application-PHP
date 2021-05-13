@@ -7,6 +7,7 @@ $output = '<thead class=" text-warning">
 <th>Class</th>
 <th>Subject</th>
 <th>Name</th>
+<th>Chapter</th>
 <th>Time(min)</th>
 <th>Link</th>
 <th>Result</th>
@@ -34,16 +35,21 @@ if(mysqli_num_rows($data)>0){
             <td>'.$row['class'].'</td>
             <td>'.$row['subject'].'</td>
             <td>'.$row['name'].'</td>
+            <td>'.$row['chapter'].'</td>
             <td class="text-warning">'.$row['timeout'].'</td>
             <td><a href="test.php?name='.$row['name'].'" target="_blank" class="btn btn-primary '.$question_present.'" >Take Test</a></td>
-            <td><a href="#" onclick="popup(\''.$row['name'].'\')" class="btn btn-primary '.$question_present.'">Review <span>'.$row['name'].'</span></a></td>
+            <td><a href="#" onclick="popup(\''.$row['name'].'\')" class="btn btn-primary '.$question_present.'">Review Results</a></td>
             <td><a class="btn btn-primary '.$ans_p.'" href="./assets/question-image/'.$ans.'">Downlaod PDF</a></td>
             </tr>                                        
         </tbody>   ';
         
        
     }
-    echo $output;
+
+        echo $output;
+    
+}else{
+    echo "No tests were added yet.";
 }
 
 

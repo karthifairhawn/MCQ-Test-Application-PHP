@@ -10,7 +10,7 @@ if(isset($_GET['name'])  and isset($_SESSION['u_name'])){
     $current_attempt++;
     $_SESSION['attempt'] = $current_attempt;
     $_SESSION['test_name'] = $testname;
-    echo $testname;
+
     
 
     mysqli_query($conn, "INSERT into attempts (user_id, test_name, attempt) values ('$u_name', '$testname','$current_attempt')");
@@ -127,7 +127,7 @@ Processing...
             <ul class="navbar-nav">
               <li class="nav-item">
                 <a class="nav-link" href="javascript:;">
-                  <i class="material-icons">person</i>
+                  <!-- <i class="material-icons">person</i> -->
                 </a>
               </li>
               <!-- your navbar here -->

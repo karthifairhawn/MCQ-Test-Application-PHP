@@ -17,7 +17,7 @@ document.addEventListener("DOMContentLoaded", function(){
 
         const countdown = document.getElementById("countdown");
 
-        count_timer = setInterval(updatetime, 3000);
+        count_timer = setInterval(updatetime, 1000);
         testname=document.getElementById("testname").innerText;
         function updatetime(){
             const minutes = Math.floor(time/60);
@@ -26,6 +26,7 @@ document.addEventListener("DOMContentLoaded", function(){
                 clearInterval(count_timer);
                 alert("Time is out!");
                 // Submit Request
+
                     testname=document.getElementById("testname").innerText;
                     attempt=document.getElementById("curr-attempt").innerText;
                     user_name=document.getElementById("u_name").value;
@@ -54,6 +55,7 @@ document.addEventListener("DOMContentLoaded", function(){
     
     }
 });
+
 
 
 
