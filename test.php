@@ -15,7 +15,7 @@ if(isset($_GET['name'])  and isset($_SESSION['u_name'])){
 
     mysqli_query($conn, "INSERT into attempts (user_id, test_name, attempt) values ('$u_name', '$testname','$current_attempt')");
 }else{
-  header('Location: index.php');
+  header('Location : index.php');
 }
 ?>
 
