@@ -8,6 +8,7 @@ function load_question_1(){
         if(this.readyState === 4 && this.status === 200) {
             document.getElementById("question-div").innerHTML = this.responseText;        
                  indicator.classList.add("active-ques");
+                 $('#question-indicator1').trigger("click");
                 
         }
     };

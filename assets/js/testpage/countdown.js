@@ -1,6 +1,8 @@
 
 
 document.addEventListener("DOMContentLoaded", function(){
+
+
     var request = new XMLHttpRequest();
     var testname= document.getElementById('testname').innerText;    
     request.open("GET", "./php/testpage/update_time.php?name="+testname);
@@ -30,7 +32,6 @@ document.addEventListener("DOMContentLoaded", function(){
             
                     let rem_seconds=minutes*60;
                     rem_seconds=rem_seconds+seconds;
-                    console.log(rem_seconds);
                     time_request.open("GET", "./php/testpage/update_cd.php?time="+rem_seconds);
                     time_request.onreadystatechange = function() {
                         if(this.readyState === 4 && this.status === 200) {
