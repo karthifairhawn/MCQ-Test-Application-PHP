@@ -3,6 +3,7 @@
 
 include 'php/conn.php';
 session_start();
+$limit_exceed=False;
 if(isset($_GET['name'])  and isset($_SESSION['u_name'])){
     $testname = mysqli_real_escape_string($conn, $_GET['name']);
     $u_name = mysqli_real_escape_string($conn, $_SESSION['u_name']);
@@ -37,6 +38,8 @@ if(isset($_GET['name'])  and isset($_SESSION['u_name'])){
         if($current_attempt>1){
            $limit_exceed=true; 
             
+        }else{
+          $limit_exceed=false;
         }
     }
     

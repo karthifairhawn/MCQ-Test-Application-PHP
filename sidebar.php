@@ -1,19 +1,10 @@
   <?php
-include "config.php";
-session_start();
-if (!isset($_SESSION['user-id'])) {
-  ?>
-<script type="text/javascript">
-  alert("You Need To Login First");
-  window.location="../Login";
-</script>
-  <?php
-}
 
-$id=$_SESSION['user-id'];
+
+
+$id=$_SESSION['u_name'];
 $sql="SELECT * FROM student WHERE id=".$id;
-$rs = $pdo->query($sql);
-            $row=$rs->fetch(PDO::FETCH_ASSOC);
+
 
 ?>
   
@@ -33,7 +24,7 @@ $rs = $pdo->query($sql);
         Tip 2: you can also add an image using data-image tag
     -->
       <div class="logo"><a href="index.php" class="simple-text logo-normal" style="font-family:courier;color:white;">
-          <?php echo $row['name'] ?>
+          <?php echo 'Testing Name' ?>
         </a></div>
       <div class="sidebar-wrapper">
         <ul class="nav">
@@ -79,33 +70,7 @@ $rs = $pdo->query($sql);
               <p>Results</p>
             </a>
           </li>
-          <li class="nav-item ">
-               <?php
-              if($row['course']=="PCB")
-              {
-              ?>
-            <a class="nav-link" href="pcb-videos.php" id="video">
-              <i class="fa fa-video-camera" style="color:white;"></i>
-              <p>Video</p>
-            </a>
-             <?php } 
-             elseif($row['course']=="PCMB")
-              {
-              ?>
-            <a class="nav-link" href="pcmb-videos.php" id="video">
-              <i class="fa fa-video-camera" style="color:white;"></i>
-              <p>Video</p>
-            </a>
-             <?php } 
-             elseif($row['course']=="PCM")
-              {
-              ?>
-            <a class="nav-link" href="pcm-videos.php" id="video">
-              <i class="fa fa-video-camera" style="color:white;"></i>
-              <p>Video</p>
-            </a>
-             <?php } ?>
-          </li>
+          
           <li class="nav-item ">
             <a class="nav-link" href="course.php" id="course-offer">
               <i class="fa fa-folder-open" style="color:white;"></i>

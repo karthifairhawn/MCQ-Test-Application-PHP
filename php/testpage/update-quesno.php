@@ -6,7 +6,7 @@ if($_SESSION['test']=="inactive"){
 }
 include '../conn.php';
 if(isset($_GET['name'])){    
-    $u_name   = mysqli_real_escape_string($conn, $_GET['username']);
+    $u_name   = mysqli_real_escape_string($conn, $_SESSION['u_name']);
     $name= mysqli_real_escape_string($conn, $_GET['name']);
     $attempt =  mysqli_real_escape_string($conn, $_SESSION['attempt']);
     $data = mysqli_query($conn,"Select * from questions where name='$name' order by ques_no asc");
@@ -14,12 +14,10 @@ if(isset($_GET['name'])){
 
     
     $result='<a href="#" style="display:block;" >Total Questions :<span id="total-ques">'.mysqli_num_rows($data).'</span></a>
-            <a href="#" style="display:block; padding:0px 15px;" >Attempt :<span id="curr-attempt">'.$attempt.'</span></a>';
+            <a href="#  " style="display:block; padding:0px 15px;" >Attempt :<span id="curr-attempt">'.$attempt.'</span></a>';
 
     $u_name = mysqli_real_escape_string($conn, $_SESSION['u_name']);
-    if($ques_no==1){
 
-    }
             $cat=[];
             
             

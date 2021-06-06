@@ -1,4 +1,4 @@
-<?php $conn = mysqli_connect('localhost','u371100189_main','prashn24#','u371100189_main');
+<?php $conn = mysqli_connect('localhost','karthi','karthi12','mock_test');
 
 	if (!$conn){
 		echo 'Connection Error to DB';
