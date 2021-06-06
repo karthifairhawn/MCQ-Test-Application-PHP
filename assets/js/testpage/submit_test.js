@@ -20,6 +20,8 @@ function submitTest_auto() {
 }
 
 function submitTest() {
+    
+    
     if(confirm('Are you sure you want to submit ?')){
         testname=document.getElementById("testname").innerText;
 
@@ -35,15 +37,28 @@ function submitTest() {
             }
 
         };
+
         
         document.getElementById("wrapper").style.display = "none";
+        
         request.send();  
+
+        var myDiv = document.createElement("div");
+        
+
+        myDiv.id = 'processing';
+        
+        //Add your content to the DIV
+        myDiv.innerHTML ="<div class='loader_parent'><div class='loader'></div></div>";
+
+        document.body.appendChild(myDiv);
         setTimeout(() => { window.location.href = 'result.php?testname='+testname+'&attempt='+attempt+'&from_test='+'true'; }, 3000);      
         
 
     }
     // Submit Request Ends
-       
+
 
 }
+
 

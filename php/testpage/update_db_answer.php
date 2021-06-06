@@ -1,5 +1,9 @@
 <?php
 session_start();
+
+if($_SESSION['test']=="inactive"){
+    header("Location: ../../mocktest.php");
+}
 include '../conn.php';
 $user_id = mysqli_real_escape_string($conn, $_SESSION['u_name']);
 $attempt = mysqli_real_escape_string($conn, $_SESSION['attempt']);

@@ -13,7 +13,8 @@ if(isset($_SESSION['u_name'])){
 
 $testname = mysqli_real_escape_string($conn, $_GET['testname']);
 $attempt  = mysqli_real_escape_string($conn, $_GET['attempt']);
-$attempt_info = "SELECT total_questions, unanswered_questions, answered_questions, correct_answers, wrong_answers, total_marks from attempts where test_name='$testname' and attempt=$attempt";
+$attempt_info = "SELECT total_questions, unanswered_questions, answered_questions, correct_answers, wrong_answers, total_marks from attempts where test_name='$testname' and attempt=$attempt and user_id='$u_name'" ;
+
 $attempt_info = mysqli_query($conn,$attempt_info);
 $attempt_info = mysqli_fetch_assoc($attempt_info);
 ?>
@@ -53,19 +54,19 @@ $attempt_info = mysqli_fetch_assoc($attempt_info);
 
 <body onload="render_ques_ans();">
   <div class="wrapper ">
-    <div class="sidebar" data-color="orange" data-background-color="white" style="background-color:#eee;">
+    <div class="sidebar" data-color="orange" data-background-color="white" style="background-color:#202225;">
 
-      <div class="logo" style="background-color:white;">
-        <a href="#" class="simple-text logo-normal">
+      <div class="logo" style="background-color:#202225;">
+        <a href="#" class="simple-text logo-normal" style="color:white;">
           <?php echo htmlspecialchars($_SESSION['name']); ?>
         </a>
       </div>
-      <div class="sidebar-wrapper" style="background-color:white;">
+      <div class="sidebar-wrapper" style="background-color:#202225;">
         <ul class="nav">
           <li class="nav-item active  ">
             <a class="nav-link" href="#0">
               <i class="material-icons" style="color:white;">rate_review</i>
-              <p style="color:white";>Review Attempts</p>
+              <p style="color:white";>Test Info</p>
               
             </a>
           </li>
@@ -85,13 +86,23 @@ $attempt_info = mysqli_fetch_assoc($attempt_info);
     </div>
     <div class="main-panel">
       <!-- Navbar -->
-      <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top ">
+      <style>
+        #navbar{
+             background-color:#2f3136 !important;
+             color: white;
+             border-bottom: 1px solid white;
+        }
+        #question-div{
+            color: white;
+        }
+        </style>
+      <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top " id="navbar">
         <div class="container-fluid">
           <div class="navbar-wrapper">
             <a href="testlist.php">
               <i class="material-icons">home</i>
             </a>
-            <a class="navbar-brand" href="javascript:;">Answers - <span id="test-name">
+            <a class="navbar-brand" href="javascript:;">Answers <span id="test-name" style="position:absolute;opacity:0;">
             <?php echo htmlspecialchars($testname); ?>
             </span></a>
 
@@ -120,49 +131,23 @@ $attempt_info = mysqli_fetch_assoc($attempt_info);
 
 
 
-      <div class="content" style="background:#FEC94F">
+      <div class="content" style="background:#202225">
         <div class="container-fluid">
           <div class="row">
-            <div class="card">
+            <div class="card" style="background-color:white;">
 
-              <div class="card-header card-header-primary" 
-              style="background: #093028; 
-              background: -webkit-linear-gradient(to right, #021B79, #093028);  
-              background: linear-gradient(to right, #021B79, #093028); 
-              font-family:verdana;
-              text-align:center">
+              <div class="card-header card-header-primary" style="background-color: #485461;
+background-image: linear-gradient(315deg, #485461 0%, #28313b 74%);text-align:center;">
                 <h4 class="card-title">Answers</h4>
               </div>
 
                 <div class="card-body" id="question-div">
-
-                    <div id="question-div">                                                           
-                        <label class="question">
-                            1. Tell me your answer ? <span class=wrong><i class="fa fa-times"></i> Mark : -1</span>
-                        </label>
-                        <p>
-                            <input type="radio" name="question1" value="Option 1" > <span class="answer"> Answer is 6 </span><br>
-                            <input type="radio" name="question1" value="Option 1" > <span> Answer is 8 </span><br>
-                            <input type="radio" name="question1" value="Option 1" > <span class="wrong"> Answer is 10 </span><br>
-                            <input type="radio" name="question1" value="Option 1" > <span> Answer is 3 </span><br>
-                        </p>                 
-                    </div>
-
-                    <div id="question-div">           
-                        <label class="question">
-                            2. Tell me your answer ? <span class="answer"><i class="fa fa-check ">Mark : +4</i></span>
-                        </label>
-                        <p>
-                            <input type="radio" name="question1" value="Option 1" > <span class="answer"> Answer is 6 </span><br>
-                            <input type="radio" name="question1" value="Option 1" > <span> Answer is 8 </span><br>
-                            <input type="radio" name="question1" value="Option 1" > <span> Answer is 10 </span><br>
-                            <input type="radio" name="question1" value="Option 1" > <span> Answer is 3 </span><br>
-                        </p>                 
-                    </div>
+                    
+                    
 
                     
                     
-              </div>
+                </div>
 
           </div>
         </div>

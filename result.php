@@ -7,6 +7,7 @@ if(isset($_SESSION['u_name'])){
   include 'php/conn.php';
   $u_name = mysqli_real_escape_string($conn, $_SESSION['u_name']);
   $name = mysqli_real_escape_string($conn, $_SESSION['name']);
+
 }else{
   header('Location:index.php');
 }
@@ -20,9 +21,10 @@ $result_data_query = "SELECT total_questions, unanswered_questions, answered_que
 $result_data = mysqli_query($conn,$result_data_query);
 $result_data = mysqli_fetch_assoc($result_data);
 if($from_test == 'true'){
-  $back_option = '<a class="btn btn-primary"href="testlist.php"><i class="fa fa-angle-left"></i>  Go Home</a>';
+    $_SESSION['test']="inactive";
+  $back_option = '<a class="btn btn-primary" href="testlist.php"><i class="fa fa-angle-left"></i>  Go Home</a>';
 }else{
-  $back_option = '<a class="btn btn-primary"href="attempts.php?testname='.$testname.'"><i class="fa fa-angle-left"></i>  Go Back</a>';
+  $back_option = '<a class="btn btn-primary " href="attempts.php?testname='.$testname.'"><i class="fa fa-angle-left"></i>  Go Back</a>';
 }
 
 
@@ -57,22 +59,40 @@ if($from_test == 'true'){
   <!-- Material Kit CSS -->
   <link href="assets/css/material-dashboard.css?v=2.1.2" rel="stylesheet" />
   <script src="js/render_attempts.js"></script>
-  
+  <script
+  src="https://code.jquery.com/jquery-3.6.0.min.js"
+  integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+  crossorigin="anonymous"></script>
+  <style>
+      #navbar{
+             background-color:#2f3136 !important;
+             color: white;
+             border-bottom: 1px solid white;
+        }
+    .card-body label{
+        color: white;
+    }
+    
+    .btn{
+        background-color: #485461;
+background-image: linear-gradient(315deg, #485461 0%, #28313b 74%);text-align:center;
+    }
+  </style>
 </head>
 
 <body>
   <div class="wrapper ">
-    <div class="sidebar" data-color="orange" data-background-color="white" style="background-color:#eee;">
+    <div class="sidebar" style="background-color:#eee;">
       <!--
       Tip 1: You can change the color of the sidebar using: data-color="purple | azure | green | orange | danger"
 
       Tip 2: you can also add an image using data-image tag
   -->
-      <div class="logo" style="background-color:white;">
+      <div class="logo" style="background-color:#202225;">
         <a class="simple-text logo-normal">
         </a>
       </div>
-      <div class="sidebar-wrapper" style="background-color:white;">
+      <div class="sidebar-wrapper" style="background-color:#202225;">
         <ul class="nav">
           <li class="nav-item active  ">
             <a class="nav-link" href="#0">
@@ -86,7 +106,7 @@ if($from_test == 'true'){
     </div>
     <div class="main-panel">
       <!-- Navbar -->
-      <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top ">
+      <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top " id="navbar">
         <div class="container-fluid">
           <div class="navbar-wrapper">
             <a class="navbar-brand" href="javascript:;">Result</a>
@@ -114,17 +134,14 @@ if($from_test == 'true'){
 
 
 
-      <div class="content" style="background:#FEC94F">
+      <div class="content" style="background:#444f56">
         <div class="container-fluid">
           <div class="row">
-            <div class="card">
+            <div class="card" style="background-image: linear-gradient(to right, #3c434d, #48565b, #5b6867, #727974, #8a8b85);">
 
               <div class="card-header card-header-primary" 
-              style="background: #093028; 
-              background: -webkit-linear-gradient(to right, #021B79, #093028);  
-              background: linear-gradient(to right, #021B79, #093028); 
-              font-family:verdana;
-              text-align:center">
+              style="background-color: #485461;
+background-image: linear-gradient(315deg, #485461 0%, #28313b 74%);text-align:center;">
                 <h4 class="card-title">Test Result</h4>            
               </div>
 
@@ -201,4 +218,12 @@ if($from_test == 'true'){
   <script src="assets/js/material-dashboard.js?v=2.1.2" type="text/javascript"></script>
 </body>
 
+ <script>
+    $("#testsubmitted").css({'border-left':'3px solid white','background-color':'#393c43'
+    });
+      
+
+
+      
+  </script>
 </html>

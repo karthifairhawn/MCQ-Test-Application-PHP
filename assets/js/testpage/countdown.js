@@ -6,7 +6,9 @@ document.addEventListener("DOMContentLoaded", function(){
     request.open("GET", "./php/testpage/update_time.php?name="+testname);
     request.onreadystatechange = function() {
         if(this.readyState === 4 && this.status === 200) {
-            startminutes=this.responseText;
+            
+            var sm = parseInt(this.responseText);
+            window.startminutes=sm/60;
             updatetime();
         }
     };
@@ -15,13 +17,32 @@ document.addEventListener("DOMContentLoaded", function(){
     function updatetime(){
         let time = startminutes*60;
 
-        const countdown = document.getElementById("countdown");
+        const countdown = document.getElementById("countdown_r");
 
         count_timer = setInterval(updatetime, 1000);
         testname=document.getElementById("testname").innerText;
         function updatetime(){
             const minutes = Math.floor(time/60);
             let seconds = time%60;
+            
+            // Update time req starts
+            var time_request = new XMLHttpRequest();
+            
+                    let rem_seconds=minutes*60;
+                    rem_seconds=rem_seconds+seconds;
+                    console.log(rem_seconds);
+                    time_request.open("GET", "./php/testpage/update_cd.php?time="+rem_seconds);
+                    time_request.onreadystatechange = function() {
+                        if(this.readyState === 4 && this.status === 200) {
+                            data=this.responseText;      
+                            
+                        }
+
+                    };
+            time_request.send(); 
+            
+            
+            // Update time req
             if (minutes<0){
                 clearInterval(count_timer);
                 alert("Time is out!");
@@ -48,14 +69,13 @@ document.addEventListener("DOMContentLoaded", function(){
                 
             }
             seconds = seconds < 10 ? '0' + seconds : seconds;
-            countdown.innerHTML = "Min : "+minutes+":"+seconds;
+            countdown.innerHTML = minutes+" : "+seconds;
             time--; 
 
         }
     
     }
 });
-
 
 
 

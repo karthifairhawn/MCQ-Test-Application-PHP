@@ -1,3 +1,20 @@
+function render_ques_no_onclick(ques){
+    var request = new XMLHttpRequest();
+    var testname= document.getElementById('testname').innerText;    
+    request.open("GET", "./php/testpage/update-quesno_onclick.php?name="+testname);
+    request.onreadystatechange = function() {
+        if(this.readyState === 4 && this.status === 200) {
+            document.getElementById("question-container").innerHTML = this.responseText;
+            upcoming_active_ques = document.getElementById("question-indicator"+ques);
+            upcoming_active_ques.classList.add("active-ques");
+            // $("#unset-ans-btn").trigger("click");
+
+        }
+    };
+    request.send();
+}
+
+
 
 function get_curr_ques(){
     var curr_question = document.getElementsByClassName("active-ques");
@@ -6,13 +23,14 @@ function get_curr_ques(){
 }
 
 function load_question(ques_no,pane=false){
-    if(pane==true){
-        var curr_question = document.getElementsByClassName("active-ques");
-        var curr_question_id = curr_question[0].id; 
-        document.getElementById(curr_question_id).classList.remove("active-ques");
-    }
-    upcoming_active_ques = document.getElementById("question-indicator"+ques_no);
-    upcoming_active_ques.classList.add("active-ques");
+    render_ques_no_onclick(ques_no);
+    // if(pane==true){
+    //     var curr_question = document.getElementsByClassName("active-ques");
+    //     var curr_question_id = curr_question[0].id; 
+    //     document.getElementById(curr_question_id).classList.remove("active-ques");
+    // }
+    // upcoming_active_ques = document.getElementById("question-indicator"+ques_no);
+    // upcoming_active_ques.classList.add("active-ques");
     var request = new XMLHttpRequest();
     var testname= document.getElementById('testname').innerText;  
     attempt =document.getElementById("curr-attempt").innerText;
@@ -32,7 +50,7 @@ function load_question(ques_no,pane=false){
 
 
 
-};
+}
 
 function previous_question() {
     var curr_question_id = get_curr_ques();
@@ -54,3 +72,5 @@ function next_question(){
         load_question(toFind);
     }
 }
+
+

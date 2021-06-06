@@ -1,6 +1,5 @@
-document.addEventListener('DOMContentLoaded', function() {
-    render_attempts();
- }, false);
+render_attempts();
+
 function render_attempts(){
     testname = document.getElementById("test-name").innerText;
     var request = new XMLHttpRequest();
@@ -13,4 +12,5 @@ function render_attempts(){
     };
     request.send();
 }
+
 

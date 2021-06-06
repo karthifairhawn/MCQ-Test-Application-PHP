@@ -40,27 +40,50 @@ $_SESSION['attempt_page']=$_SERVER['REQUEST_URI'];
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
   <!-- Material Kit CSS -->
   <link href="assets/css/material-dashboard.css?v=2.1.2" rel="stylesheet" />
-  <script src="assets/js/attempts/render_attempts.js"></script>
+  
+  <style> #navbar{
+             background-color:#2f3136 !important;
+             color: white;
+             border-bottom: 1px solid white;
+        }
+                .card th{
+         color : white !important;
+         font-weight: 600 !important;
+        }
+        .card td{
+            color : white !important;
+        }
+        .card a{
+            background-color:#2f3136 !important;
+             color: white;
+             border-bottom: 1px solid white; 
+        }
+        .card button{
+            background-color:#2f3136 !important;
+             color: white;
+             border-bottom: 1px solid white; 
+        }
+        </style>
   
 </head>
 
 <body>
   <div class="wrapper ">
-    <div class="sidebar" data-color="orange" data-background-color="white" style="background-color:#eee;">
+    <div class="sidebar" style="background-color:#202225;">
       <!--
       Tip 1: You can change the color of the sidebar using: data-color="purple | azure | green | orange | danger"
 
       Tip 2: you can also add an image using data-image tag
   -->
-      <div class="logo" style="background-color:white;">
-        <a href="http://www.creative-tim.com" class="simple-text logo-normal">
+      <div class="logo" style="background-color:#202225;">
+        <a href="http://www.creative-tim.com" class="simple-text logo-normal" style="color:white">
           <?php echo htmlspecialchars($_SESSION['name']); ?>
         </a>
       </div>
-      <div class="sidebar-wrapper" style="background-color:white;">
+      <div class="sidebar-wrapper" style="background-color:#202225;">
         <ul class="nav">
           <li class="nav-item active  ">
-            <a class="nav-link" href="#0">
+            <a class="nav-link" href="#0" style="background-color:#2f3136;">
               <i class="material-icons" style="color:white;">rate_review</i>
               <p style="color:white";>Review Attempts</p>
             </a>
@@ -71,13 +94,13 @@ $_SESSION['attempt_page']=$_SERVER['REQUEST_URI'];
     </div>
     <div class="main-panel">
       <!-- Navbar -->
-      <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top ">
+      <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top " id="navbar">
         <div class="container-fluid">
           <div class="navbar-wrapper">
             <a href="testlist.php">
-              <i class="material-icons">home</i>
+              <i class="material-icons" style="color:white;">home</i>
             </a>
-            <a class="navbar-brand" href="javascript:;">All Taken Tests - <span id="test-name"><?php echo htmlspecialchars($testname); ?></span></a>
+            <a class="navbar-brand" href="javascript:;">All Taken Tests <span id="test-name" style="opacity:0;position:absolute;"><?php echo htmlspecialchars($testname); ?></span></a>
 
 
           </div>
@@ -104,17 +127,14 @@ $_SESSION['attempt_page']=$_SERVER['REQUEST_URI'];
 
 
 
-      <div class="content" style="background:#FEC94F">
+      <div class="content" style="background:#36393f">
         <div class="container-fluid">
           <div class="row">
-            <div class="card">
+            <div class="card" style="background-image: linear-gradient(to right, #3c434d, #48565b, #5b6867, #727974, #8a8b85);">
 
               <div class="card-header card-header-primary" 
-              style="background: #093028; 
-              background: -webkit-linear-gradient(to right, #021B79, #093028);  
-              background: linear-gradient(to right, #021B79, #093028); 
-              font-family:verdana;
-              text-align:center">
+              style="background-color: #485461;
+background-image: linear-gradient(315deg, #485461 0%, #28313b 74%);text-align:center;">
                 <h4 class="card-title">Test List</h4>
                 <p class="card-category">Below are attended tests.</p>
               </div>
@@ -129,7 +149,7 @@ $_SESSION['attempt_page']=$_SERVER['REQUEST_URI'];
                     <th>Review</th>
                     <th>Answers</th>
                   </thead>
-                  <tbody id="table-body">
+                  <tbody id="table-body" onload="render_attempts()">
                     
                     
                   </tbody>
@@ -198,7 +218,7 @@ $_SESSION['attempt_page']=$_SERVER['REQUEST_URI'];
   <script src="assets/js/plugins/bootstrap-notify.js"></script>
   <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
   <script src="assets/js/material-dashboard.js?v=2.1.2" type="text/javascript"></script>
-  
+  <script src="assets/js/attempts/render_attempts.js"></script>
 </body>
 
 </html>

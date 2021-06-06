@@ -1,22 +1,89 @@
 <?php
 
+
 include 'php/conn.php';
 session_start();
 if(isset($_GET['name'])  and isset($_SESSION['u_name'])){
     $testname = mysqli_real_escape_string($conn, $_GET['name']);
     $u_name = mysqli_real_escape_string($conn, $_SESSION['u_name']);
-    $current_attempt = mysqli_query($conn, "SELECT * FROM attempts where user_id='$u_name' and test_name='$testname'");
-    $current_attempt = mysqli_num_rows($current_attempt);
-    $current_attempt++;
-    $_SESSION['attempt'] = $current_attempt;
-    $_SESSION['test_name'] = $testname;
-
     
+    
+    if(isset($_GET['attempt'])){
+            $_SESSION['resume']=1;
+            $current_attempt = mysqli_real_escape_string($conn, $_GET['attempt']);
+        
+    }else{
+        $_SESSION['resume']=0;
+        $question_revealed = 0;
+    
+        $current_attempt = mysqli_query($conn, "SELECT * FROM attempts where user_id='$u_name' and test_name='$testname'");
+        while($row = mysqli_fetch_assoc($current_attempt)){
+            if($row['ques_rev']==1){
+                    $question_revealed = 1;
+                    header('Location: php/spp/answer_revealed.php');
+            }
+        }
+        $current_attempt = mysqli_num_rows($current_attempt);
+        $current_attempt++;
+        
+    }
+    
+    
+    
+    
+    $_SESSION['attempt'] = $current_attempt;
+    
+    if($_SESSION['paid']==0){
+        if($current_attempt>1){
+           $limit_exceed=true; 
+            
+        }
+    }
+    
+    $_SESSION['test_name'] = $testname;
+    
+    if($limit_exceed==true){
+        header('Location: mocktest.php');
+    }else{
+        if(!isset($_GET['attempt'])){
+            
+            if($_SESSION['resume']==0 and $question_revealed==0){
+                $timeout = mysqli_query($conn,"Select timeout from test where name='$testname'");
+                $timeout = mysqli_fetch_assoc($timeout);
+                $timeout = $timeout['timeout'];
+                mysqli_query($conn, "INSERT into attempts (user_id, test_name, attempt,countdown) values ('$u_name', '$testname','$current_attempt','$timeout')");
+            }elseif($question_revealed==0){
+                mysqli_query($conn, "INSERT into attempts (user_id, test_name, attempt) values ('$u_name', '$testname','$current_attempt')");  
+            }
+            
+        }
+            $_SESSION['test'] = "active";
 
-    mysqli_query($conn, "INSERT into attempts (user_id, test_name, attempt) values ('$u_name', '$testname','$current_attempt')");
+
+    }
 }else{
-  header('Location : index.php');
+  header('Location: index.php');
 }
+
+
+$attempt_count = mysqli_query($conn, "SELECT * From attempts where user_id='$u_name'");
+
+if($_SESSION['paid']==0){
+    if((mysqli_num_rows($attempt_count))>=3){
+        $_SESSION['attempt_limit']=1;
+        header('Location: php/spp/attempt_limit.html');
+    }
+}
+
+
+$category = mysqli_query($conn, "Select distinct category from questions where name='$testname'");
+$category_html = '';
+while($row = mysqli_fetch_assoc($category)){
+    $tt = $row['category'];
+    $category_html.= '<a href="#'.strtoupper($tt).'" class="nav-link ques_cat" onclick="cat_fun(this.innerText)">'.strtoupper($tt).'</a>';
+
+}
+
 ?>
 
 
@@ -58,6 +125,7 @@ if(isset($_GET['name'])  and isset($_SESSION['u_name'])){
   <meta content="width=device-width, initial-scale=1.0" name="viewport" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <!--     Fonts and icons     -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
   <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
 
@@ -65,43 +133,84 @@ if(isset($_GET['name'])  and isset($_SESSION['u_name'])){
   <link href="assets/css/material-dashboard.css?v=2.1.2" rel="stylesheet" />
   <link href="assets/css/main.css" rel="stylesheet" />
   <script src="assets/js/testpage/renderQuesno.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
   <script type="text/javascript" src="assets/js/testpage/countdown.js"></script>
   <script type="text/javascript" src="assets/js/testpage/previous_next.js"></script>
   <script type="text/javascript" src="assets/js/testpage/update_db_answer.js"></script>
   <script type="text/javascript" src="assets/js/testpage/submit_test.js"></script>
+    <style>
+        #navbar{
+             background-color:#2f3136 !important;
+             color: white;
+             border-bottom: 1px solid white;
+        }
+        #sidebar a{
+            color:white !important;
+        }
+        #sidebar p{
+            color:white !important;
+        }
+    </style>
 </head>
 
 
 <body onload="renderQuesNo()">
-<div class="processing">
-Processing...
-<div class="loader"></div>
-</div>
+<!--<div class="processing" style="Display:none">-->
+<!--    <div class="lds-circle"></div>-->
+
+<!--</div>-->
 
 
   <div class="wrapper" id="wrapper">
 
 
-    <div class="sidebar" data-color="orange" data-background-color="white" style="background-color:#eee;">
+    <div class="sidebar" id="sidebar" style="background-color:#202225;">
       <!--
       Tip 1: You can change the color of the sidebar using: data-color="purple | azure | green | orange | danger"
 
       Tip 2: you can also add an image using data-image tag
   -->
-      <div class="logo" style="background-color:white;">
+      <div class="logo" style="background-color:#202225;">
         <a href="#" class="simple-text logo-normal"><?php echo htmlspecialchars($_SESSION['name']); ?></a>
         <input type="hidden" id="u_name" value="<?php echo htmlspecialchars($_SESSION['u_name']); ?>">
       </div>
-      <div class="sidebar-wrapper" style="background-color:white;">
+      <div class="sidebar-wrapper" style="background-color:#202225;">
         <ul class="nav">
           <li class="nav-item active  ">
-            <a class="nav-link" href="#0">
-              <i class="material-icons" style="color:white;">schedule</i>
-              <p style="color:white";>Time Left</p>
-              <p style="color:white"; id="countdown">Min : 20:00</p>
-            </a>
-            
-            <div class="question-container" id="question-container">
+                
+            <div class="catgor">
+                <p class="nav-link">Categories :</p>
+                <div id="cat-container">
+                        <?php echo $category_html ?>
+                    
+                </div>
+            </div>
+                  
+                  <style>
+                    .catgor{
+                        border: 1px solid #2e2e2d;
+                        padding:10px;
+                        margin:5px;
+                        }
+                       
+                    #cat-container a{
+                        display: inline-block;
+                        border-bottom: 3px solid #fff;
+
+                        padding: 2px;
+
+                    }
+                    #cat-container a:hover{
+                        transition: border 0.2s;
+                    }
+                    #question-div{
+                        color: black;
+                    }
+                    
+                    
+                  </style>
+            <div class="question-container" id="question-container" >
               
             </div>
           </li>
@@ -111,11 +220,11 @@ Processing...
     </div>
     <div class="main-panel">
       <!-- Navbar -->
-      <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top ">
+      <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top " id="navbar">
         <div class="container-fluid">
           <div class="navbar-wrapper">
 
-            <a class="navbar-brand" href="#header">Mock Test - <span id="testname" onclick="fetch_time()"><?php echo htmlspecialchars($testname);?></a></span>
+            <a class="navbar-brand" href="#header">Mock Test <span id="testname" onclick="fetch_time()" style="display:none"><?php echo htmlspecialchars($testname);?></a></span>
           </div>
           <button class="navbar-toggler" type="button" data-toggle="collapse" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
             <span class="sr-only">Toggle navigation</span>
@@ -140,21 +249,22 @@ Processing...
 
 
 
-      <div class="content" style="background:#FEC94F">
+      <div class="content" style="background:#36393f">
         <div class="container-fluid">
           <div class="row">
             <div class="card">
 
               <div class="card-header card-header-primary" 
-              style="background: #093028; 
-              background: -webkit-linear-gradient(to right, #021B79, #093028);  
-              background: linear-gradient(to right, #021B79, #093028); 
-              font-family:verdana;
-              text-align:center">
+              style="background-color: #485461;
+background-image: linear-gradient(315deg, #485461 0%, #28313b 74%);display:flex;justify-content: space-between;">
                 <h4 class="card-title"><?php echo htmlspecialchars($testname); ?></h4>
+                <h4 class="card-title" id="countdown_r"></h4>
               </div>
 
-              <div class="card-body">
+              <div class="card-body" style="background-color:white;">
+                  
+                 
+                  
                 <div class="table-responsive">
                     <form>
                         <div id="question-div">                         
@@ -178,19 +288,7 @@ Processing...
 
 
 
-      <footer class="footer">
-        <div class="container-fluid">
-          <input type="hidden" id="u_name" value="<?php echo htmlspecialchars($_SESSION['u_name']); ?>">
-          <div class="copyright float-right">
-            &copy;
-            <script>
-              document.write(new Date().getFullYear())
-            </script>, made with <i class="material-icons">favorite</i> by
-            <a href="https://prashnottar.in/" target="_blank">Prashnottar</a> for a better e-learning.
-          </div>
-          <!-- your footer here -->
-        </div>
-      </footer>
+     
     </div>
   </div>
 
@@ -241,10 +339,22 @@ Processing...
   <script src="assets/js/plugins/bootstrap-notify.js"></script>
   <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
   <script src="assets/js/material-dashboard.js?v=2.1.2" type="text/javascript"></script>
+  
+  <script>
+    function cat_fun(cat){
+        var tt = "#"+cat;
+       var cat = $(tt)
+       cat.next().click();
+    }
+  </script>
+    <script type="text/javascript" src="assets/js/testpage/auto_render_ques_no.js"></script>
+
+
 </body>
 
 
 </html>
+
 
 
 

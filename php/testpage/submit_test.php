@@ -1,5 +1,9 @@
 <?php
 
+
+if($_SESSION['test']=="inactive"){
+    header("Location: ../../mocktest.php");
+}
 include '../conn.php';
 
 $total_questions = 0;
@@ -12,6 +16,13 @@ $total_marks = 0;
 $testname = mysqli_real_escape_string($conn, $_GET['testname']);
 $attempt  = mysqli_real_escape_string($conn, $_GET['attempt']);
 $u_name   = mysqli_real_escape_string($conn, $_GET['username']);
+// if(isset($_GET['timeout'])){
+//     $timeout= $_GET['timeout'];
+// }else{
+//     $timeout = mysqli_query($conn,"Select timeout from test where name='$testname'");
+//     $timeout = mysqli_fetch_assoc($timeout);
+//     $timeout = $timeout['timeout'];
+// }
 
 $select_test_data_query = "SELECT * from attempts where user_id='$u_name' and attempt=$attempt and test_name='$testname'";
 $select_org_answer_query = "SELECT answer,positive,negative from questions where name='$testname'";
@@ -29,7 +40,7 @@ foreach($row as $key=>$value)
 {
     unset($row[$key]);
     $i++;
-    if($i==11){
+    if($i==15){
         break;
     }
 }
@@ -42,7 +53,7 @@ $row = array_values($row);
 $total_questions = sizeof($row);
 
 foreach($row as $value){
-    if($value == 0){
+    if($value == 0 or $value == -1){
         $unanswered_questions++;
     }else{
         $answered_questions++;
@@ -59,7 +70,7 @@ while($i < $total_questions){
 
         $total_marks+=$org_answer_array[$i][1];
         $correct_answers++;
-    }elseif($row[$i] == 0){
+    }elseif($row[$i] == 0 or $row[$i]==-1){
         $total_marks=$total_marks;
     }else{
         $total_marks+=$org_answer_array[$i][2];
@@ -69,6 +80,9 @@ while($i < $total_questions){
 }
 
 echo $total_marks;
+session_start();
+
+
 
 $submit_result_query = "update attempts set total_questions=$total_questions, unanswered_questions=$unanswered_questions, answered_questions=$answered_questions,
                 total_marks=$total_marks, wrong_answers=$wrong_answers,correct_answers=$correct_answers where user_id='$u_name' and attempt=$attempt and test_name='$testname'";

@@ -10,7 +10,7 @@ if(isset($_GET['testname'])){
     $testname=mysqli_real_escape_string($conn, $_GET['testname']);    
     $data = mysqli_query($conn,"Select * from questions where name='$testname'");   
     if(mysqli_num_rows($data)==0){
-        // header('Location:index.php');
+        header('Location:index.php');
     }
 
 
@@ -22,8 +22,10 @@ if(isset($_GET['testname'])){
     $attempt_info = mysqli_query($conn,$attempt_info);
     $attempt_info = mysqli_fetch_assoc($attempt_info);
     $total_questions = $attempt_info['total_questions'];
-
-    $user_answer = "SELECT * from attempts where user_id='".$u_name."' and attempt=".$attempt." and test_name='".$testname."'";
+    
+    $user_answer = "SELECT * from attempts where (user_id='$u_name' and attempt=$attempt) and test_name='$testname'";
+    
+    $result="";
     $org_answer = "SELECT answer,positive,negative from questions where name='$testname'";
     
     $user_answer = mysqli_query($conn,$user_answer);
@@ -46,7 +48,7 @@ if(isset($_GET['testname'])){
     
     $i=0;
 
-    while($i<11 ){
+    while($i<15 ){
         array_shift($user_answer);
         $i++;
     }    
@@ -64,7 +66,6 @@ if(isset($_GET['testname'])){
 
   
 
-    $result="";
 
     $i=0;
   
@@ -99,16 +100,16 @@ if(isset($_GET['testname'])){
             }elseif($user_answer[$i]==4){
                 $checked_4 ="checked";
             }
-            $wrong_mark_html = '<span class=wrong><i class="fa fa-times"></i> Mark : '.$org_answer[$i][2].'</span>';
-            $correct_mark_html = '<span class="answer"><i class="fa fa-check ">Mark : '.$org_answer[$i][1].'</i></span>';
+            $wrong_mark_html = '<br><span class=wrong><i class="fa fa-times"></i> Mark : '.$org_answer[$i][2].'</span>';
+            $correct_mark_html = '<br><span class="answer"><i class="fa fa-check ">Mark : '.$org_answer[$i][1].'</i></span>';
 
 
             if($org_answer[$i][0] == $user_answer[$i]){                
                 $corerct_answer = $correct_mark_html;
 
                 
-            }elseif($user_answer[$i] == 0){
-                $corerct_answer = '<span class=neutral>Mark : +0 </span>';
+            }elseif($user_answer[$i] == 0 or $user_answer[$i] == -1){
+                $corerct_answer = '<br><span class=neutral>Mark : +0 </span>';
             }elseif($org_answer[$i][0] != $user_answer[$i]){
                 $wrong_answer=$wrong_mark_html;
                 
@@ -123,7 +124,6 @@ if(isset($_GET['testname'])){
                 $answer = "d";
             }
 
-            
 
             $i++;
             
@@ -135,72 +135,50 @@ if(isset($_GET['testname'])){
             $o_format = end($o_image);
 
             if((($q_format == "jpg")  or ($q_format == "png") or ($q_format == "jpeg")) and (($o_format == "jpg")  or ($o_format == "png") or ($o_format == "jpeg"))){
-                $result.= '<label class="question">
-                            '.$row['ques_no'].'. '.'<div  id="questionImg"><img class="img-fluid" src="'."./assets/question-image/".$row['question'].'"></div>'.$wrong_answer.$corerct_answer.'
-                        </label>
-                        <p>
-                        <input type="radio" name="question'.$row['ques_no'].'" value="Option 1" '.$checked_1.' disabled>'.' '.'<div  id="questionImg"><img class="img-fluid" src="'."./assets/question-image/".$row['option1'].'" '.$checked_1.' ></div></span>'.'<br>
-                        <input type="radio" name="question'.$row['ques_no'].'" value="Option 1" '.$checked_2.' disabled>'.' '.'<div  id="questionImg"><img class="img-fluid" src="'."./assets/question-image/".$row['option1'].'" '.$checked_2.' ></div></span>'.'<br>
-                        <input type="radio" name="question'.$row['ques_no'].'" value="Option 1" '.$checked_3.' disabled>'.' '.'<div  id="questionImg"><img class="img-fluid" src="'."./assets/question-image/".$row['option1'].'" '.$checked_3.' ></div></span>'.'<br>
-                        <input type="radio" name="question'.$row['ques_no'].'" value="Option 1" '.$checked_4.' disabled>'.' '.'<div  id="questionImg"><img class="img-fluid" src="'."./assets/question-image/".$row['option1'].'" '.$checked_4.' ></div></span>'.'<br>
-                        Correct Answer : '.$answer.';<br>
-                        <a  data-lightbox="image-1" href="'.$solution_link.'" style="font-weight:600;">'.$view_soln_test.'</a><br>
-                        </p>';
+                $result.= '<label class="question" id="qno">Question no 
+                            '.$row['ques_no'].'. '.'</label><br><div  id="questionImg"><img class="img-fluid" src="'."./assets/question-image/".$row['question'].'"></div>'.$wrong_answer.$corerct_answer.'
+                        <br><a  data-lightbox="image-1" href="'.$solution_link.'" style="font-weight:600;">'.$view_soln_test.'</a><br>
+                        <hr>';
                         
                         
             
                 
             }elseif(($q_format == "jpg")  or ($q_format == "png") or ($q_format == "jpeg")){
-                $result.= '<label class="question">
-                '.$row['ques_no'].'. '.'<div  id="questionImg"><img class="img-fluid" src="'."./assets/question-image/".$row['question'].'"></div>'.$wrong_answer.$corerct_answer.'
+                $result.= '<label class="question" id="qno">Question no 
+                '.$row['ques_no'].'. '.'</label><br><div  id="questionImg"><img class="img-fluid" src="'."./assets/question-image/".$row['question'].'"></div>'.$wrong_answer.$corerct_answer.'
                         </label>
                         <p>
-                            <input type="radio" name="question'.$row['ques_no'].'" value="Option 1"  '.$checked_1.' disabled>'.' '.$row['option1'].'<br>
-                            <input type="radio" name="question'.$row['ques_no'].'" value="Option 1"  '.$checked_2.' disabled>'.' '.$row['option2'].'<br>
-                            <input type="radio" name="question'.$row['ques_no'].'" value="Option 1"  '.$checked_3.' disabled>'.' '.$row['option3'].'<br>
-                            <input type="radio" name="question'.$row['ques_no'].'" value="Option 1"  '.$checked_4.' disabled>'.' '.$row['option4'].'<br>
-                            Correct Answer : '.$answer.';<br>
-                            <a  data-lightbox="image-1" href="'.$solution_link.'" style="font-weight:600;">'.$view_soln_test.'</a><br>
-                        </p>';
+                            <br><a  data-lightbox="image-1" href="'.$solution_link.'" style="font-weight:600;">'.$view_soln_test.'</a><br>
+                        </p><hr>';
                         
                         
 
     
             }elseif(($o_format == "jpg")  or ($o_format == "png") or ($o_format == "jpeg")){
-                $result.= '<label class="question">
-                            '.$row['ques_no'].'. '.$row['question'].$wrong_answer.$corerct_answer.'
+                $result.= '<label class="question" id="qno">Question no 
+                            '.$row['ques_no'].'.</label><br> '.$row['question'].$wrong_answer.$corerct_answer.'
                         </label>
                         <p>
-                            <input type="radio" name="question'.$row['ques_no'].'" value="Option 1" '.$checked_1.' disabled>'.' '.'<div  id="questionImg"><img class="img-fluid" src="'."./assets/question-image/".$row['option1'].'"></div>'.'<br>
-                            <input type="radio" name="question'.$row['ques_no'].'" value="Option 1" '.$checked_2.' disabled>'.' '.'<div  id="questionImg"><img class="img-fluid" src="'."./assets/question-image/".$row['option1'].'"></div>'.'<br>
-                            <input type="radio" name="question'.$row['ques_no'].'" value="Option 1" '.$checked_3.' disabled>'.' '.'<div  id="questionImg"><img class="img-fluid" src="'."./assets/question-image/".$row['option1'].'"></div>'.'<br>
-                            <input type="radio" name="question'.$row['ques_no'].'" value="Option 1" '.$checked_4.' disabled>'.' '.'<div  id="questionImg"><img class="img-fluid" src="'."./assets/question-image/".$row['option1'].'"></div>'.'<br>
-                            Correct Answer : '.$answer.';<br>
-                            <a data-lightbox="image-1" href="'.$solution_link.'" style="font-weight:600;">'.$view_soln_test.'</a><br>
-                        </p>';
+                            <br><a data-lightbox="image-1" href="'.$solution_link.'" style="font-weight:600;">'.$view_soln_test.'</a><br>
+                        </p><hr>';
                         
 
             
             }else{
-                $result.= '<label class="question">
-                            '.$row['ques_no'].'. '.$row['question'].$wrong_answer.$corerct_answer.'
+                $result.= '<label class="question" id="qno">Question no 
+                            '.$row['ques_no'].'.</label><br> '.$row['question'].$wrong_answer.$corerct_answer.'
                         </label>
                         <p>
-                            <input type="radio" name="question'.$row['ques_no'].'" value="Option 1"  '.$checked_1.' disabled >'.' '.$row['option1'].'</span><br>
-                            <input type="radio" name="question'.$row['ques_no'].'" value="Option 1"  '.$checked_2.' disabled>'.' '.$row['option2'].'</span><br>
-                            <input type="radio" name="question'.$row['ques_no'].'" value="Option 1"  '.$checked_3.' disabled>'.' '.$row['option3'].'</span><br>
-                            <input type="radio" name="question'.$row['ques_no'].'" value="Option 1"  '.$checked_4.' disabled>'.' '.$row['option4'].'</span><br>
-                            Correct Answer : '.$answer.';<br>
-                            
-                            <a data-lightbox="image-1" href="'.$solution_link.'" style="font-weight:600;">'.$view_soln_test.'</a><br>
-                        </p>';                                                             
+                            <br><a data-lightbox="image-1" href="'.$solution_link.'" style="font-weight:600;">'.$view_soln_test.'</a><br>
+                        </p><hr>';                                                             
             }
                         
         
     }
-    $result.= '<div class="buttons">                
-                <button class="btn btn-primary "><a href="'.$back_url.'" style="color: white;"><i class="fa fa-chevron-left"></i> Go Back</a></button>
-                </div>';
+    
+    // $result.= '<div class="buttons">                
+    //             <button class="btn btn-primary "><a href="'.$back_url.'" style="color: white;"><i class="fa fa-chevron-left"></i> Go Back</a></button>
+    //             </div>';
     echo $result;
 }
 
