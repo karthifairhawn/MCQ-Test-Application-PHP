@@ -269,8 +269,11 @@ background-image: linear-gradient(315deg, #485461 0%, #28313b 74%);display:flex;
                  
                   
                 <div class="table-responsive">
-                    <form>
-                        <div id="question-div">                         
+                    <div class="time-taken-green" id="time-taken">
+                      <span id="time_taken_sec">00</span>
+                    </div>      
+                        <div id="question-div">      
+                                     
                         <!-- Questions will load here -->
                         
                         </div>                                                
@@ -278,7 +281,7 @@ background-image: linear-gradient(315deg, #485461 0%, #28313b 74%);display:flex;
                         
                         
 
-                    </form>
+                    
                 </div>
               </div>
 
@@ -351,6 +354,8 @@ background-image: linear-gradient(315deg, #485461 0%, #28313b 74%);display:flex;
     }
   </script>
     <script type="text/javascript" src="assets/js/testpage/auto_render_ques_no.js"></script>
+
+    <script type="text/javascript" src="assets/js/testpage/time_taken.js"></script>
 
 
 

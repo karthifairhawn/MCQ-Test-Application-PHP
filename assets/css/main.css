@@ -311,3 +311,45 @@ $opacity-transition: opacity $speed ease-in-out;
   text-decoration: none;
   cursor: pointer;
 }
+#time-taken{
+  float: right;
+  display:flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  padding: 1px 3px 1px 3px;
+  font-size:15px;
+  width:50px;
+  height:50px;
+  text-align: center;
+  vertical-align: middle;
+  border-radius: 50%;
+}
+
+@media (max-width:500px){
+  #time-taken{
+    font-size:14px;
+    width:60px;
+    height:20px;
+    border-radius: 0%;
+  }
+}
+
+.time-taken-green{
+    border : 1px solid rgba(0, 128, 0, 0.822);
+    background-color: rgba(0, 128, 0, 0.822);
+}
+
+.time-taken-orange{
+  border : 1px solid rgba(255, 166, 0, 0.836);
+  background-color: rgba(255, 166, 0, 0.836);
+  transition: border 15s;
+  transition: background-color 15s;
+}
+
+.time-taken-red{
+  border : 1px solid rgba(255, 0, 0, 0.616);
+  background-color: rgba(255, 0, 0, 0.616);
+  transition: border 15s;
+  transition: background-color 15s;
+}
