@@ -1,9 +1,9 @@
 function indi_timer(){
     time_taken = $("#time_taken_sec");
-var timer_ind=1;mint_ind=0;
-clearTimeout(window.timer_ind);
+    var timer_ind=1;mint_ind=0;
+    clearTimeout(window.timer_ind);
 
-window.timer_ind = setInterval(function(){
+    window.timer_ind = setInterval(function(){
     if(mint_ind==0 && timer_ind<10){
         time_taken.text('0'+timer_ind);
     }else if(mint_ind==0){
