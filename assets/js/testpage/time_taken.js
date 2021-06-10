@@ -1,6 +1,6 @@
 function indi_timer(){
     time_taken = $("#time_taken_sec");
-    var timer_ind=1;mint_ind=0;
+    var timer_ind=1;mint_ind=0;total_seconds_tk=0;
     clearTimeout(window.timer_ind);
 
     window.timer_ind = setInterval(function(){
@@ -20,6 +20,17 @@ function indi_timer(){
         timer_ind=0;
     }
     timer_ind++;
+    total_seconds_tk++;
+    var tt_request = new XMLHttpRequest();   
+    ques_no = document.getElementsByClassName("active-ques")[0].innerText;
+    tt_request.open("GET", "./php/testpage/time_taken.php?tt="+total_seconds_tk+"&ques_no="+ques_no);
+    tt_request.onreadystatechange = function() {
+        if(this.readyState === 4 && this.status === 200) {            
+            data = this.responseText;
+            console.log(data);
+        }
+    };
+    tt_request.send();
     if(timer_ind<10 && mint_ind<1){
         $("#time-taken").addClass("time-taken-green");
         $("#time-taken").removeClass("time-taken-orange");
