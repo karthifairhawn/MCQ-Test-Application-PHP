@@ -47,11 +47,11 @@ if(isset($_GET['name'])){
     while($row = mysqli_fetch_assoc($data)){
         $ques_no=$row['ques_no'];
         $answered_html="";
-        if($select_test_data_query[$test_data_active_iterator]!=0 and $select_test_data_query[$test_data_active_iterator]!=-1){
-            $answered_html="answered";
-        }elseif($select_test_data_query[$test_data_active_iterator]==-1){
-            $answered_html="unanswered";
-        }
+
+
+        if($select_test_data_query[$test_data_active_iterator]!=0 and $select_test_data_query[$test_data_active_iterator]!=-1)      $answered_html="answered";
+        elseif($select_test_data_query[$test_data_active_iterator]==-1)                                                             $answered_html="unanswered";
+        
 
         
         if(!(in_array($row['category'], $cat))){
@@ -63,16 +63,10 @@ if(isset($_GET['name'])){
         
         
 
-        if($ques_no==0){
-            $ques_no=1;
-        }
+        if($ques_no==0) $ques_no=1;
         
 
-            
-
-
-        $result.='<a href="#" onclick="load_question('.$ques_no.',true)" id="question-indicator'.$ques_no.'" class="ques '.$answered_html.'" style="width:3rem;">'.$ques_no.'</a>';
-        // $ques_no++;
+        $result.='<a href="#" onclick="load_question('.$ques_no.',true)" id="question-indicator'.$ques_no.'" class="ques '.$answered_html.'" style="width:3rem;">'.$ques_no.'</a>';        
         $test_data_active_iterator++;
     }
     echo $result;

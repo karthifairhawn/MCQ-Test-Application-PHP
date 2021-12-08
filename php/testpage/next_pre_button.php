@@ -18,10 +18,7 @@ if(isset($_GET['name'])){
         $ques_no=0;
     }
     
-
-    
-    
-    
+ 
 
     $checked_check = "select answer$ques_no from attempts where user_id='$user_id' and attempt=$attempt and test_name='$name'";    
     $checked_check = mysqli_query($conn,$checked_check);

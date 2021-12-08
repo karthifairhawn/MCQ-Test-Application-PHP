@@ -8,26 +8,26 @@ if($_GET['testname']==""){
 }
 include '../conn.php';
 
-$answer_name=$_GET['answer_name'];
-$u_name = $_SESSION['u_name'];
-$testname = $_GET['testname'];
+// $answer_name=$_GET['answer_name'];
+// $u_name = $_SESSION['u_name'];
+// $testname = $_GET['testname'];
 
 
-date_default_timezone_set('Asia/Kolkata');
-$date= date('d-m-Y H:i');
+// date_default_timezone_set('Asia/Kolkata');
+// $date= date('d-m-Y H:i');
 
-$ques_rev = mysqli_query($conn, "select ques_rev from attempts where user_id='$u_name' and test_name='$testname' and attempt=1");
-$ques_rev = mysqli_fetch_assoc($ques_rev);
-$ques_rev = $ques_rev['ques_rev'];
+// $ques_rev = mysqli_query($conn, "select ques_rev from attempts where user_id='$u_name' and test_name='$testname' and attempt=1");
+// $ques_rev = mysqli_fetch_assoc($ques_rev);
+// $ques_rev = $ques_rev['ques_rev'];
 
-if($ques_rev == 0){
-    mysqli_query($conn, "update attempts set ques_rev=1,initial_rev_date='$date' where test_name='$testname' and user_id='$u_name'" );
-}else{
-    mysqli_query($conn, "update attempts set ques_rev=1,final_rev_date='$date' where test_name='$testname' and user_id='$u_name'" );
-}
+// if($ques_rev == 0){
+//     mysqli_query($conn, "update attempts set ques_rev=1,initial_rev_date='$date' where test_name='$testname' and user_id='$u_name'" );
+// }else{
+//     mysqli_query($conn, "update attempts set ques_rev=1,final_rev_date='$date' where test_name='$testname' and user_id='$u_name'" );
+// }
 
 
-
+// Question reveal Code
 
 
 

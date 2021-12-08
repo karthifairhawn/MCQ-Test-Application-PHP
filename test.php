@@ -3,45 +3,43 @@
 
 include 'php/conn.php';
 session_start();
-if(isset($_GET['name'])  and isset($_SESSION['u_name'])){
-    $testname = mysqli_real_escape_string($conn, $_GET['name']);
-    $u_name = mysqli_real_escape_string($conn, $_SESSION['u_name']);
+if(!(isset($_GET['name'])  and isset($_SESSION['u_name']))) header('Location: index.php');
+
+$testname = mysqli_real_escape_string($conn, $_GET['name']);
+$u_name = mysqli_real_escape_string($conn, $_SESSION['u_name']);
+
+
+if(isset($_GET['attempt'])){
+  $_SESSION['resume']=1;
+  $current_attempt = mysqli_real_escape_string($conn, $_GET['attempt']);
+  
+}else{
+  $_SESSION['resume']=0;
+  $question_revealed = 0;    
+  $current_attempt = mysqli_query($conn, "SELECT * FROM attempts where user_id='$u_name' and test_name='$testname'");
+  $current_attempt = mysqli_num_rows($current_attempt);
+  $current_attempt++;    
+}
+
+$_SESSION['attempt'] = $current_attempt;    
+$_SESSION['test_name'] = $testname;
+
+
+if(!isset($_GET['attempt'])){
     
-    
-    if(isset($_GET['attempt'])){
-            $_SESSION['resume']=1;
-            $current_attempt = mysqli_real_escape_string($conn, $_GET['attempt']);
-        
-    }else{
-        $_SESSION['resume']=0;
-        $question_revealed = 0;
-    
-        $current_attempt = mysqli_query($conn, "SELECT * FROM attempts where user_id='$u_name' and test_name='$testname'");
-        $current_attempt = mysqli_num_rows($current_attempt);
-        $current_attempt++;    
+    if($_SESSION['resume']==0 and $question_revealed==0){
+        $timeout = mysqli_query($conn,"Select timeout from test where name='$testname'");
+        $timeout = mysqli_fetch_assoc($timeout);
+        $timeout = $timeout['timeout'];
+        mysqli_query($conn, "INSERT into attempts (user_id, test_name, attempt,countdown) values ('$u_name', '$testname','$current_attempt','$timeout')");
+    }elseif($question_revealed==0){
+        mysqli_query($conn, "INSERT into attempts (user_id, test_name, attempt) values ('$u_name', '$testname','$current_attempt')");  
     }
     
-    $_SESSION['attempt'] = $current_attempt;    
-    $_SESSION['test_name'] = $testname;
-    
-
-      if(!isset($_GET['attempt'])){
-          
-          if($_SESSION['resume']==0 and $question_revealed==0){
-              $timeout = mysqli_query($conn,"Select timeout from test where name='$testname'");
-              $timeout = mysqli_fetch_assoc($timeout);
-              $timeout = $timeout['timeout'];
-              mysqli_query($conn, "INSERT into attempts (user_id, test_name, attempt,countdown) values ('$u_name', '$testname','$current_attempt','$timeout')");
-          }elseif($question_revealed==0){
-              mysqli_query($conn, "INSERT into attempts (user_id, test_name, attempt) values ('$u_name', '$testname','$current_attempt')");  
-          }
-          
-      }
-      $_SESSION['test'] = "active";
-
-}else{
-  header('Location: index.php');
 }
+$_SESSION['test'] = "active";
+
+
 
 
 $attempt_count = mysqli_query($conn, "SELECT * From attempts where user_id='$u_name'");
@@ -52,8 +50,8 @@ $attempt_count = mysqli_query($conn, "SELECT * From attempts where user_id='$u_n
 $category = mysqli_query($conn, "Select distinct category from questions where name='$testname'");
 $category_html = '';
 while($row = mysqli_fetch_assoc($category)){
-    $tt = $row['category'];
-    $category_html.= '<a href="#'.strtoupper($tt).'" class="nav-link ques_cat" onclick="cat_fun(this.innerText)">'.strtoupper($tt).'</a>';
+  $tt = $row['category'];
+  $category_html.= '<a href="#'.strtoupper($tt).'" class="nav-link ques_cat" onclick="cat_fun(this.innerText)">'.strtoupper($tt).'</a>';
 }
 
 ?>

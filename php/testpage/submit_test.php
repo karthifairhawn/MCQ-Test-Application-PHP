@@ -1,9 +1,8 @@
 <?php
 
+session_start();
+// if($_SESSION['test']=="inactive")   header("Location: ../../mocktest.php");
 
-if($_SESSION['test']=="inactive"){
-    header("Location: ../../mocktest.php");
-}
 include '../conn.php';
 
 $total_questions = 0;
@@ -16,6 +15,7 @@ $total_marks = 0;
 $testname = mysqli_real_escape_string($conn, $_GET['testname']);
 $attempt  = mysqli_real_escape_string($conn, $_GET['attempt']);
 $u_name   = mysqli_real_escape_string($conn, $_GET['username']);
+
 // if(isset($_GET['timeout'])){
 //     $timeout= $_GET['timeout'];
 // }else{
@@ -24,95 +24,57 @@ $u_name   = mysqli_real_escape_string($conn, $_GET['username']);
 //     $timeout = $timeout['timeout'];
 // }
 
-$select_test_data_query = "SELECT * from attempts where user_id='$u_name' and attempt=$attempt and test_name='$testname'";
-$select_org_answer_query = "SELECT answer,positive,negative from questions where name='$testname'";
-$test_data = mysqli_query($conn,$select_test_data_query);
-$org_answer = mysqli_query($conn,$select_org_answer_query);
-$row = mysqli_fetch_assoc($test_data);
-$org_answer_array=[];
+$total_questions = "Select * from questions where name='$testname' order by ques_no asc";
+$total_questions = mysqli_query($conn,$total_questions);
+$total_questions = mysqli_num_rows($total_questions);
 
-while ($i = mysqli_fetch_assoc($org_answer)){
-    $i = array_values($i);
-    array_push($org_answer_array,$i);
-}
-$i=0;
-foreach($row as $key=>$value)
-{
-    unset($row[$key]);
-    $i++;
-    if($i==15){
-        break;
-    }
-}
-foreach($row as $key=>$value)
-{
-    if(is_null($value) || $value == '')
-        unset($row[$key]);
-}
-$row = array_values($row);
-$total_questions = sizeof($row);
 
-foreach($row as $value){
-    if($value == 0 or $value == -1){
-        $unanswered_questions++;
-    }else{
-        $answered_questions++;
-    }
 
-}
+
+$test_data = "SELECT * from attempts where user_id='$u_name' and attempt=$attempt and test_name='$testname'";
+$org_answer = "SELECT answer,positive,negative from questions where name='$testname'";
+
+$test_data = mysqli_query($conn,$test_data);
+$org_answer = mysqli_query($conn,$org_answer);
+
+
+
+$test_data = mysqli_fetch_assoc($test_data);
+
+
+
+
+
 
 $i=0;
+while($org_answer_row = mysqli_fetch_assoc($org_answer)){    
+    if($i=1) $i++;
+    $to_get = "answer".$i;      
 
-
-
-while($i < $total_questions){
-    if($row[$i] == $org_answer_array[$i][0]){
-
-        $total_marks+=$org_answer_array[$i][1];
+    if($test_data[$to_get]<=0){ 
+        $unanswered_questions++; 
+    }else if($test_data[$to_get]==$org_answer_row["answer"]){
         $correct_answers++;
-    }elseif($row[$i] == 0 or $row[$i]==-1){
-        $total_marks=$total_marks;
+        $total_marks+=$org_answer_row["positive"];
     }else{
-        $total_marks+=$org_answer_array[$i][2];
         $wrong_answers++;
+        $total_marks+=$org_answer_row["negative"];
     }
-    $i++;
+    $i++;    
 }
 
-echo $total_marks;
-session_start();
+$answered_questions = $total_questions - $unanswered_questions;
+
+
+
 
 
 
 $submit_result_query = "update attempts set total_questions=$total_questions, unanswered_questions=$unanswered_questions, answered_questions=$answered_questions,
                 total_marks=$total_marks, wrong_answers=$wrong_answers,correct_answers=$correct_answers where user_id='$u_name' and attempt=$attempt and test_name='$testname'";
+
+echo $submit_result_query;                
 $submit_result = mysqli_query($conn,$submit_result_query);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
