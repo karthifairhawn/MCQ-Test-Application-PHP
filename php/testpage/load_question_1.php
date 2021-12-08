@@ -24,9 +24,7 @@ if(isset($_GET['name'])){
     $checked_4 =$checked_check['answer1'];
     
     
-    if($checked_check['answer1']==0){
-        
-    
+    if($checked_check['answer1']==0){    
         $update_db_answer_query = "update attempts set answer0=-1 where (user_id='$user_id' and attempt=$attempt and test_name='$name')";
         $update_db_answer = mysqli_query($conn, $update_db_answer_query);
     }

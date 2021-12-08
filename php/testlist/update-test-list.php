@@ -9,9 +9,6 @@ $subject = $_GET['sub'];
 
 
 $output = '<thead class=" text-warning">
-
-
-
 <th>Name</th>
 <th>Time(min)</th>
 <th>Take Test</th>
@@ -19,18 +16,20 @@ $output = '<thead class=" text-warning">
 <th>Solution</th>
 </thead>';
 
+$data = mysqli_query($conn, "SELECT * From test where type='$course' and subject='$subject'");    
+
 
 $disable="";
-$attempt_count = mysqli_query($conn, "SELECT * From attempts where user_id='$username'");
-if($_SESSION['paid']==0){
-    if(mysqli_num_rows($attempt_count)>=3){
-        $_SESSION['attempt_limit']=1;
-        $disable="disabled";
-    }
-}
+// $attempt_count = mysqli_query($conn, "SELECT * From attempts where user_id='$username'");
+// if($_SESSION['paid']==0){
+//     if(mysqli_num_rows($attempt_count)>=3){
+//         $_SESSION['attempt_limit']=1;
+//         $disable="disabled";
+//     }
+// }
 
 
-$data = mysqli_query($conn, "SELECT * From test where type='$course' and subject='$subject'");    
+
 
 
 

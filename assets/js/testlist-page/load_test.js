@@ -1,10 +1,7 @@
 function viewAnswer(value){
-    
-if (confirm('After revealing answers attempt is not allowed.')) {
-
-console.log(value);
+    if (confirm('After revealing answers attempt is not allowed.')) {
+    console.log(value);
     window.location.replace("https://prashnottar.in/Dashboard/"+value);
-
 } 
 
 }
@@ -20,9 +17,8 @@ var sub="unselected";
 
 $(document).on('change','#test_to_get',function(){
         window.sub = $("#test_to_get option:selected").text();
-        updateTests(sub);
-        
-          });
+        updateTests(sub);        
+});
 
 
 

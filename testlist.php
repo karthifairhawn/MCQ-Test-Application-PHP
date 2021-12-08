@@ -137,7 +137,7 @@ require('sidebar.php');
       <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top " id="navbar">
         <div class="container-fluid">
           <div class="navbar-wrapper">
-            <a class="navbar-brand" href="javascript:;">Mock Test</a>
+            <a class="navbar-brand" href="javascript:;">NEET/JEE Mock Test</a>
           </div>
           <button class="navbar-toggler" type="button" data-toggle="collapse" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
             <span class="sr-only">Toggle navigation</span>
@@ -147,11 +147,7 @@ require('sidebar.php');
           </button>
           <div class="collapse navbar-collapse justify-content-end">
             <ul class="navbar-nav">
-              <li class="nav-item">
-                <a class="nav-link" href="javascript:;">
-                  <i class="material-icons">person</i>
-                </a>                
-              </li>
+
               <li class="nav-item">
               <a class="nav-link" href="php/logout.php">
                   <span><i class="material-icons">power_settings_new</i>Logout</span>
@@ -176,7 +172,7 @@ require('sidebar.php');
               style="background-color: #485461;
 background-image: linear-gradient(315deg, #485461 0%, #28313b 74%);text-align:center;">
                 <h4 class="card-title">Test List</h4>
-                <p class="card-category">Complete the below Mock Tests.<br><?php
+                <p class="card-category">You can practice the below tests.<br><?php
                     $paid_data = "";
                     if($_SESSION['paid']==0){
                         $paid_data = "Unpaid users can only have one attempt in any 3 tests";

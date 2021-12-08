@@ -3,7 +3,6 @@
 
 include 'php/conn.php';
 session_start();
-$limit_exceed=False;
 if(isset($_GET['name'])  and isset($_SESSION['u_name'])){
     $testname = mysqli_real_escape_string($conn, $_GET['name']);
     $u_name = mysqli_real_escape_string($conn, $_SESSION['u_name']);
@@ -18,52 +17,28 @@ if(isset($_GET['name'])  and isset($_SESSION['u_name'])){
         $question_revealed = 0;
     
         $current_attempt = mysqli_query($conn, "SELECT * FROM attempts where user_id='$u_name' and test_name='$testname'");
-        while($row = mysqli_fetch_assoc($current_attempt)){
-            if($row['ques_rev']==1){
-                    $question_revealed = 1;
-                    header('Location: php/spp/answer_revealed.php');
-            }
-        }
         $current_attempt = mysqli_num_rows($current_attempt);
-        $current_attempt++;
-        
+        $current_attempt++;    
     }
     
-    
-    
-    
-    $_SESSION['attempt'] = $current_attempt;
-    
-    if($_SESSION['paid']==0){
-        if($current_attempt>1){
-           $limit_exceed=true; 
-            
-        }else{
-          $limit_exceed=false;
-        }
-    }
-    
+    $_SESSION['attempt'] = $current_attempt;    
     $_SESSION['test_name'] = $testname;
     
-    if($limit_exceed==true){
-        header('Location: mocktest.php');
-    }else{
-        if(!isset($_GET['attempt'])){
-            
-            if($_SESSION['resume']==0 and $question_revealed==0){
-                $timeout = mysqli_query($conn,"Select timeout from test where name='$testname'");
-                $timeout = mysqli_fetch_assoc($timeout);
-                $timeout = $timeout['timeout'];
-                mysqli_query($conn, "INSERT into attempts (user_id, test_name, attempt,countdown) values ('$u_name', '$testname','$current_attempt','$timeout')");
-            }elseif($question_revealed==0){
-                mysqli_query($conn, "INSERT into attempts (user_id, test_name, attempt) values ('$u_name', '$testname','$current_attempt')");  
-            }
-            
-        }
-            $_SESSION['test'] = "active";
 
+      if(!isset($_GET['attempt'])){
+          
+          if($_SESSION['resume']==0 and $question_revealed==0){
+              $timeout = mysqli_query($conn,"Select timeout from test where name='$testname'");
+              $timeout = mysqli_fetch_assoc($timeout);
+              $timeout = $timeout['timeout'];
+              mysqli_query($conn, "INSERT into attempts (user_id, test_name, attempt,countdown) values ('$u_name', '$testname','$current_attempt','$timeout')");
+          }elseif($question_revealed==0){
+              mysqli_query($conn, "INSERT into attempts (user_id, test_name, attempt) values ('$u_name', '$testname','$current_attempt')");  
+          }
+          
+      }
+      $_SESSION['test'] = "active";
 
-    }
 }else{
   header('Location: index.php');
 }
@@ -71,12 +46,7 @@ if(isset($_GET['name'])  and isset($_SESSION['u_name'])){
 
 $attempt_count = mysqli_query($conn, "SELECT * From attempts where user_id='$u_name'");
 
-if($_SESSION['paid']==0){
-    if((mysqli_num_rows($attempt_count))>=3){
-        $_SESSION['attempt_limit']=1;
-        header('Location: php/spp/attempt_limit.html');
-    }
-}
+
 
 
 $category = mysqli_query($conn, "Select distinct category from questions where name='$testname'");
@@ -84,7 +54,6 @@ $category_html = '';
 while($row = mysqli_fetch_assoc($category)){
     $tt = $row['category'];
     $category_html.= '<a href="#'.strtoupper($tt).'" class="nav-link ques_cat" onclick="cat_fun(this.innerText)">'.strtoupper($tt).'</a>';
-
 }
 
 ?>
@@ -227,7 +196,7 @@ while($row = mysqli_fetch_assoc($category)){
         <div class="container-fluid">
           <div class="navbar-wrapper">
 
-            <a class="navbar-brand" href="#header">Mock Test <span id="testname" onclick="fetch_time()" style="display:none"><?php echo htmlspecialchars($testname);?></a></span>
+            <a class="navbar-brand" href="#header">Mock Test<span id="testname" onclick="fetch_time()" style="display:none"><?php echo htmlspecialchars($testname);?></a></span>
           </div>
           <button class="navbar-toggler" type="button" data-toggle="collapse" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
             <span class="sr-only">Toggle navigation</span>

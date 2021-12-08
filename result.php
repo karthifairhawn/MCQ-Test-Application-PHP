@@ -16,7 +16,7 @@ if(isset($_SESSION['u_name'])){
 $testname = mysqli_real_escape_string($conn, $_GET['testname']);
 $attempt  = mysqli_real_escape_string($conn, $_GET['attempt']);
 $from_test = mysqli_real_escape_string($conn, $_GET['from_test']);
-$attempt_page = mysqli_real_escape_string($conn, $_SESSION['attempt_page']);
+
 $result_data_query = "SELECT total_questions, unanswered_questions, answered_questions, correct_answers, wrong_answers, total_marks from attempts where test_name='$testname' and attempt=$attempt";
 $result_data = mysqli_query($conn,$result_data_query);
 $result_data = mysqli_fetch_assoc($result_data);
