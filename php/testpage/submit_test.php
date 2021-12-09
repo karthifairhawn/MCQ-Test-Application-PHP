@@ -29,11 +29,8 @@ $total_questions = mysqli_query($conn,$total_questions);
 $total_questions = mysqli_num_rows($total_questions);
 
 
-
-
 $test_data = "SELECT * from attempts where user_id='$u_name' and attempt=$attempt and test_name='$testname'";
 $org_answer = "SELECT answer,positive,negative from questions where name='$testname'";
-
 $test_data = mysqli_query($conn,$test_data);
 $org_answer = mysqli_query($conn,$org_answer);
 
@@ -42,18 +39,15 @@ $org_answer = mysqli_query($conn,$org_answer);
 $test_data = mysqli_fetch_assoc($test_data);
 
 
-
-
-
-
 $i=0;
 while($org_answer_row = mysqli_fetch_assoc($org_answer)){    
-    if($i=1) $i++;
+    if($i==1) $i++;
     $to_get = "answer".$i;      
 
     if($test_data[$to_get]<=0){ 
         $unanswered_questions++; 
     }else if($test_data[$to_get]==$org_answer_row["answer"]){
+        echo $test_data[$to_get]." ".$org_answer_row["answer"]."start<br>";
         $correct_answers++;
         $total_marks+=$org_answer_row["positive"];
     }else{

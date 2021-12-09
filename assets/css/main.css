@@ -37,8 +37,13 @@
     box-shadow: 0 4px 20px 0px rgb(0 0 0 / 14%), 0 7px 10px -5px rgb(255 152 0 / 40%);
 }
 
+.answer{
+  margin: 1px 0px;
+}
 
-
+#question-div{
+  color: black !important;
+}
 input[type="button"]{
     background-color:rgba(81, 202, 57, 8);
     border: none;
@@ -202,7 +207,7 @@ input[type="button"]{
     color:black;
 }
 
-$opacity-transition: opacity $speed ease-in-out;
+opacity-transition: opacity $speed ease-in-out;
 
 .modal-header {
 	align-items: baseline;
@@ -217,11 +222,11 @@ $opacity-transition: opacity $speed ease-in-out;
 	display: flex;
 	height: 16px;
 	text-decoration: none;
-	width: 16px;
+	width: 16px;	
+}
 
-	svg {
-		width: 16px;
-	}
+svg {
+  width: 16px;
 }
 
 .modal-wrapper {
@@ -238,28 +243,20 @@ $opacity-transition: opacity $speed ease-in-out;
 
 #modal {
 	opacity: 0;
-	transition: $opacity-transition;
+	transition: opacity-transition;
 	visibility: hidden;
 
-	&:target {
-		opacity: 1;
-		visibility: visible;
 
-		.modal-body {
-			opacity: 1;
-			transform: translateY(1);
-		}
 	}
 
 	.modal-body {
 		max-width: 500px;
 		opacity: 0;
-		transform: translateY(-100px);
-		transition: $opacity-transition;
+		transform: translateY(-100px);		
 		width: 100%;
 		z-index: 1;
 	}
-}
+
 
 .outside-trigger {
 	bottom: 0;

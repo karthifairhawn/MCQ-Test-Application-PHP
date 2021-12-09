@@ -2,17 +2,17 @@
 
 session_start();
 
-if(isset($_SESSION['u_name'])){
-  include 'php/conn.php';
-  $u_name = mysqli_real_escape_string($conn, $_SESSION['u_name']);
-  $name = mysqli_real_escape_string($conn, $_SESSION['name']);
-}else{
-  header('Location:index.php');
-}
+if(!isset($_SESSION['u_name'])) header('Location:index.php');
+
+include 'php/conn.php';
+$u_name = mysqli_real_escape_string($conn, $_SESSION['u_name']);
+$name = mysqli_real_escape_string($conn, $_SESSION['name']);
+
 
 
 $testname = mysqli_real_escape_string($conn, $_GET['testname']);
 $attempt  = mysqli_real_escape_string($conn, $_GET['attempt']);
+
 $attempt_info = "SELECT total_questions, unanswered_questions, answered_questions, correct_answers, wrong_answers, total_marks from attempts where test_name='$testname' and attempt=$attempt and user_id='$u_name'" ;
 
 $attempt_info = mysqli_query($conn,$attempt_info);
